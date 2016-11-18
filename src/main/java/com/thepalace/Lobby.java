@@ -3,14 +3,10 @@ package com.thepalace;
 import com.thepalace.commands.Spawn;
 import com.thepalace.core.plugin.Plugin;
 import com.thepalace.core.plugin.PluginInfo;
-import com.thepalace.listeners.PlayerLogin;
-import com.thepalace.listeners.PlayerMove;
+import com.thepalace.listeners.*;
 
 import java.io.File;
 
-/**
- * Created by Innectic on 11/18/2016.
- */
 @PluginInfo(name = "Lobby")
 public class Lobby extends Plugin {
 
@@ -19,11 +15,12 @@ public class Lobby extends Plugin {
     @Override
     public void onPluginEnable() {
         instance = this;
-
         checkConfig();
-
-        registerListener(new PlayerMove());
         registerListener(new PlayerLogin());
+        registerListener(new PlayerMove());
+        registerListener(new PlayerDrop());
+        registerListener(new PlayerInteract());
+        registerListener(new PlayerInventoryClick());
         registerCommand(new Spawn());
     }
 
@@ -48,5 +45,4 @@ public class Lobby extends Plugin {
             e.printStackTrace();
         }
     }
-
 }

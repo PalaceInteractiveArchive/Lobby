@@ -1,6 +1,7 @@
 package com.thepalace.listeners;
 
 import com.thepalace.Lobby;
+import com.thepalace.ServerPortStar;
 import com.thepalace.core.events.CorePlayerJoinDelayedEvent;
 import com.thepalace.core.player.CPlayer;
 import org.bukkit.Bukkit;
@@ -9,9 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-/**
- * Created by Innectic on 11/18/2016.
- */
 public class PlayerLogin implements Listener {
 
     @EventHandler
@@ -24,8 +22,10 @@ public class PlayerLogin implements Listener {
         player.teleport(new Location(Bukkit.getWorld(Lobby.instance.getConfig().getString("world")),
                 Lobby.instance.getConfig().getInt("x"),
                 Lobby.instance.getConfig().getInt("y"),
-                Lobby.instance.getConfig().getInt("z")));
-        player.getLocation().setYaw(Lobby.instance.getConfig().getInt("yaw"));
-        player.getLocation().setPitch(Lobby.instance.getConfig().getInt("pitch"));
+                Lobby.instance.getConfig().getInt("z"),
+                Lobby.instance.getConfig().getInt("yaw"),
+                Lobby.instance.getConfig().getInt("pitch")));
+
+        ServerPortStar.givePortStar(player);
     }
 }

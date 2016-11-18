@@ -7,9 +7,6 @@ import com.thepalace.core.command.CoreCommand;
 import com.thepalace.core.player.CPlayer;
 import org.bukkit.ChatColor;
 
-/**
- * Created by Innectic on 11/18/2016.
- */
 @CommandMeta(description = "Set the spawn")
 public class Spawn extends CoreCommand {
 
@@ -25,7 +22,6 @@ public class Spawn extends CoreCommand {
             Lobby.instance.getConfig().set("z", player.getLocation().getBlockZ());
             Lobby.instance.getConfig().set("pitch", player.getLocation().getPitch());
             Lobby.instance.getConfig().set("yaw", player.getLocation().getYaw());
-
             Lobby.instance.saveConfig();
         } catch (Exception e) {
             e.printStackTrace();
