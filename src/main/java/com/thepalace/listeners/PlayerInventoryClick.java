@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class PlayerInventoryClick implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent e) {
         ServerPortStar.checkPortStar(e);
     }
