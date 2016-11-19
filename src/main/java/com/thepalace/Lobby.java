@@ -4,6 +4,7 @@ import com.thepalace.commands.Spawn;
 import com.thepalace.core.plugin.Plugin;
 import com.thepalace.core.plugin.PluginInfo;
 import com.thepalace.listeners.*;
+import com.thepalace.resourcepack.PackManager;
 
 import java.io.File;
 
@@ -21,6 +22,7 @@ public class Lobby extends Plugin {
         registerListener(new PlayerDrop());
         registerListener(new PlayerInteract());
         registerListener(new PlayerInventoryClick());
+        registerListener(new PackManager());
         registerCommand(new Spawn());
     }
 

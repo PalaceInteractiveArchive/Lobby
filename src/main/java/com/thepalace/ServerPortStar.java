@@ -72,7 +72,7 @@ public class ServerPortStar {
         if (player.getBukkitPlayer().getOpenInventory().getTitle() == null || !player.getBukkitPlayer().getOpenInventory().getTitle() .equals(INVENTORY_NAME)) return;
         event.setCancelled(true);
         if (event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Parks")) {
-            PalaceCore.dashboardConnection.send(new PacketSendToServer(player.getUuid(), "TTC"));
+            PalaceCore.dashboardConnection.send(new PacketSendToServer(player.getUuid(), "TTC1"));
         } else if (event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Arcade")) {
             PalaceCore.dashboardConnection.send(new PacketSendToServer(player.getUuid(), "Arcade"));
         } else if (event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Creative")) {
