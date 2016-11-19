@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 
 public class PlayerLogin implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onLogin(CorePlayerJoinDelayedEvent e) {
         CPlayer player = e.getPlayer();
 
