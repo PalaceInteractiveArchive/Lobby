@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class PlayerInteract implements Listener {
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.STONE_PLATE)) return;
         ServerPortStar.openPortStar(Core.getPlayerManager().getPlayer(event.getPlayer()));
