@@ -16,7 +16,6 @@ public class PlayerMove implements Listener {
         CPlayer player = Core.getPlayerManager().getPlayer(e.getPlayer());
         if (player.getLocation().getY() <= 0) {
             player.teleport(new Location(Bukkit.getWorld(Lobby.instance.getConfig().getString("world")),
-            player.teleport(new Location(Bukkit.getWorld(Lobby.instance.getConfig().getString("world")),
                     Lobby.instance.getConfig().getInt("x"),
                     Lobby.instance.getConfig().getInt("y"),
                     Lobby.instance.getConfig().getInt("z"),
