@@ -16,23 +16,29 @@
 
     <repositories>
         <repository>
+<<<<<<< HEAD
             <id>mcmagic</id>
             <url>http://198.24.160.154:81/nexus/content/repositories/releases/</url>
+=======
+            <id>repo</id>
+            <name>main-repo</name>
+            <url>http://198.24.160.106:81/nexus/content/repositories/releases/</url>
+>>>>>>> f7c7933eab2b3b00a609c40969ef006634d7ae0b
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.10.2-R0.1-SNAPSHOT</version>
+            <groupId>com.thepalace</groupId>
+            <artifactId>Core</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.10.2-R0.1-SNAPSHOT</version>
+            <groupId>com.palacemc</groupId>
+            <artifactId>palacecore</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
             <scope>provided</scope>
         </dependency>
 

@@ -4,15 +4,13 @@ import com.thepalace.command.Spawn;
 import com.thepalace.core.plugin.Plugin;
 import com.thepalace.core.plugin.PluginInfo;
 import com.thepalace.listeners.*;
+import com.thepalace.resourcepack.PackManager;
 import org.kitteh.vanish.VanishManager;
 import org.kitteh.vanish.staticaccess.VanishNoPacket;
 import org.kitteh.vanish.staticaccess.VanishNotLoadedException;
 
 import java.io.File;
 
-/**
- * Created by Innectic on 11/18/2016.
- */
 @PluginInfo(name = "Lobby")
 public class Lobby extends Plugin {
 
@@ -31,11 +29,13 @@ public class Lobby extends Plugin {
 
         checkConfig();
 
-        registerListener(new PlayerMove());
         registerListener(new PlayerLogin());
         registerListener(new InventoryClick());
         registerListener(new PlayerInteract());
         registerListener(new PlayerDropItem());
+        registerListener(new PlayerMove());
+        registerListener(new PlayerInteract());
+        registerListener(new PackManager());
 
         registerCommand(new Spawn());
     }
@@ -61,5 +61,4 @@ public class Lobby extends Plugin {
             e.printStackTrace();
         }
     }
-
 }

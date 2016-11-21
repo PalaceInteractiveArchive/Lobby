@@ -12,12 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-/**
- * Created by Innectic on 11/18/2016.
- */
 public class PlayerLogin implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onLogin(CorePlayerJoinDelayedEvent e) {
         e.setJoinMessage("");
 
