@@ -23,6 +23,8 @@ public class PlayerMove implements Listener {
                     Lobby.instance.getConfig().getInt("x"),
                     Lobby.instance.getConfig().getInt("y"),
                     Lobby.instance.getConfig().getInt("z")));
+            player.getLocation().setYaw(Core.getPluginInstance(Lobby.class).getConfig().getInt("yaw"));
+            player.getLocation().setPitch(Core.getPluginInstance(Lobby.class).getConfig().getInt("pitch"));
         }
     }
 

@@ -1,4 +1,4 @@
 name: Lobby
 version: 1.0
-depend: [Core]
+depend: [Core,PalaceCore]
 main: com.thepalace.Lobby

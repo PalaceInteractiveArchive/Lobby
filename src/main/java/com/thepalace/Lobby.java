@@ -1,10 +1,12 @@
 package com.thepalace;
 
-import com.thepalace.commands.Spawn;
+import com.thepalace.command.Spawn;
 import com.thepalace.core.plugin.Plugin;
 import com.thepalace.core.plugin.PluginInfo;
-import com.thepalace.listeners.PlayerLogin;
-import com.thepalace.listeners.PlayerMove;
+import com.thepalace.listeners.*;
+import org.kitteh.vanish.VanishManager;
+import org.kitteh.vanish.staticaccess.VanishNoPacket;
+import org.kitteh.vanish.staticaccess.VanishNotLoadedException;
 
 import java.io.File;
 
@@ -15,15 +17,26 @@ import java.io.File;
 public class Lobby extends Plugin {
 
     public static Lobby instance;
+    public VanishManager vanishManager;
 
     @Override
     public void onPluginEnable() {
         instance = this;
 
+        try {
+            vanishManager = VanishNoPacket.getManager();
+        } catch (VanishNotLoadedException e) {
+            e.printStackTrace();
+        }
+
         checkConfig();
 
         registerListener(new PlayerMove());
         registerListener(new PlayerLogin());
+        registerListener(new InventoryClick());
+        registerListener(new PlayerInteract());
+        registerListener(new PlayerDropItem());
+
         registerCommand(new Spawn());
     }
 
