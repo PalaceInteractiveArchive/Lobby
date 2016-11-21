@@ -5,28 +5,14 @@ import com.thepalace.core.plugin.Plugin;
 import com.thepalace.core.plugin.PluginInfo;
 import com.thepalace.listeners.*;
 import com.thepalace.resourcepack.PackManager;
-import org.kitteh.vanish.VanishManager;
-import org.kitteh.vanish.staticaccess.VanishNoPacket;
-import org.kitteh.vanish.staticaccess.VanishNotLoadedException;
 
 import java.io.File;
 
 @PluginInfo(name = "Lobby")
 public class Lobby extends Plugin {
 
-    public static Lobby instance;
-    public VanishManager vanishManager;
-
     @Override
     public void onPluginEnable() {
-        instance = this;
-
-        try {
-            vanishManager = VanishNoPacket.getManager();
-        } catch (VanishNotLoadedException e) {
-            e.printStackTrace();
-        }
-
         checkConfig();
 
         registerListener(new PlayerLogin());
@@ -42,7 +28,6 @@ public class Lobby extends Plugin {
 
     @Override
     public void onPluginDisable() {
-        instance = null;
     }
 
     private void checkConfig() {

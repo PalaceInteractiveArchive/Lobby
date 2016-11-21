@@ -20,6 +20,10 @@
             <name>main-repo</name>
             <url>http://198.24.160.106:81/nexus/content/repositories/releases/</url>
         </repository>
+        <repository>
+            <id>kitteh-repo</id>
+            <url>http://repo.kitteh.org/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -33,15 +37,12 @@
             <groupId>com.palacemc</groupId>
             <artifactId>palacecore</artifactId>
             <version>1.0</version>
-            <type>jar</type>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>com.palacemc</groupId>
-            <artifactId>palacecore</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
+            <groupId>org.kitteh</groupId>
+            <artifactId>VanishNoPacket</artifactId>
+            <version>3.19</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

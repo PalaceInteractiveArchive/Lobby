@@ -9,9 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-/**
- * Created by Marc on 11/18/16
- */
 public class PackManager implements Listener {
 
     @EventHandler
@@ -19,7 +16,6 @@ public class PackManager implements Listener {
         User user = event.getUser();
         final Player player = Bukkit.getPlayer(user.getUniqueId());
         String current = event.getPacks();
-        String preferred = user.getPreferredPack();
         if (!current.equals("Palace")) {
             ResourcePack pack = PalaceCore.resourceManager.getPack("Palace");
             PalaceCore.resourceManager.sendPack(player, pack.getName());

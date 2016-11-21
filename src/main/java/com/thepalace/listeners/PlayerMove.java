@@ -15,12 +15,13 @@ public class PlayerMove implements Listener {
     public void onPlayerMove(PlayerMoveEvent e) {
         CPlayer player = Core.getPlayerManager().getPlayer(e.getPlayer());
         if (player.getLocation().getY() <= 0) {
-            player.teleport(new Location(Bukkit.getWorld(Lobby.instance.getConfig().getString("world")),
-                    Lobby.instance.getConfig().getInt("x"),
-                    Lobby.instance.getConfig().getInt("y"),
-                    Lobby.instance.getConfig().getInt("z")));
-            player.getLocation().setYaw(Core.getPluginInstance(Lobby.class).getConfig().getInt("yaw"));
-            player.getLocation().setPitch(Core.getPluginInstance(Lobby.class).getConfig().getInt("pitch"));
+            Lobby lobby = Lobby.getPlugin(Lobby.class);
+            player.teleport(new Location(Bukkit.getWorld(lobby.getConfig().getString("world")),
+                    lobby.getConfig().getInt("x"),
+                    lobby.getConfig().getInt("y"),
+                    lobby.getConfig().getInt("z"),
+                    lobby.getConfig().getInt("yaw"),
+                    lobby.getConfig().getInt("pitch")));
         }
     }
 }
