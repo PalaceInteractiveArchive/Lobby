@@ -28,6 +28,8 @@ public class PlayerLogin implements Listener {
         player.getInventory().clear();
         InventoryNav.giveNav(player);
         player.setGamemode(GameMode.ADVENTURE);
-        player.getTitle().show("", ChatColor.LIGHT_PURPLE + "Use your Nether Star to navigate!", 10, 60, 10);
+        if (lobby.getConfig().getBoolean("titleEnabled")) {
+            player.getTitle().show("", ChatColor.LIGHT_PURPLE + "Use your Nether Star to navigate!", 10, 60, 10);
+        }
     }
 }
