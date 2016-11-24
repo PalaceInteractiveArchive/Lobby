@@ -6,7 +6,7 @@ import com.thepalace.core.plugin.Plugin;
 import com.thepalace.core.plugin.PluginInfo;
 import com.thepalace.listeners.*;
 import com.thepalace.resourcepack.PackManager;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 import java.io.File;
 
