@@ -1,10 +1,12 @@
 package com.thepalace;
 
-import com.thepalace.command.Spawn;
+import com.thepalace.command.*;
+import com.thepalace.core.Core;
 import com.thepalace.core.plugin.Plugin;
 import com.thepalace.core.plugin.PluginInfo;
 import com.thepalace.listeners.*;
 import com.thepalace.resourcepack.PackManager;
+import net.md_5.bungee.api.ChatColor;
 
 import java.io.File;
 
@@ -21,9 +23,22 @@ public class Lobby extends Plugin {
         registerListener(new PlayerDropItem());
         registerListener(new PlayerMove());
         registerListener(new PlayerInteract());
-        registerListener(new PackManager());
 
+        if (doesPalaceCoreExist()) {
+            registerListener(new PackManager());
+            registerListener(new DonatorFlight());
+            if (doesVanishExist()) {
+                registerListener(new VanishJoinListener());
+            }
+        } else {
+            Core.logMessage(getInfo().name(), ChatColor.RED + "PALACE CORE IS NOT LOADED");
+        }
+
+        registerCommand(new ServerName());
         registerCommand(new Spawn());
+        registerCommand(new ToggleDonatorFly());
+        registerCommand(new TogglePack());
+        registerCommand(new ToggleTitle());
     }
 
     @Override
@@ -44,6 +59,24 @@ public class Lobby extends Plugin {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean doesPalaceCoreExist() {
+        try  {
+            Class.forName("com.palacemc.palacecore.PalaceCore");
+            return true;
+        }  catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    public boolean doesVanishExist() {
+        try  {
+            Class.forName("org.kitteh.vanish.VanishManager");
+            return true;
+        }  catch (ClassNotFoundException e) {
+            return false;
         }
     }
 }

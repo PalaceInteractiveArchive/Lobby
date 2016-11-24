@@ -1,0 +1,10 @@
+world: hub
+x: 156
+y: 96
+z: 282
+yaw: 92
+pitch: 3
+serverName: Hub
+packEnabled: true
+titleEnabled: true
+flightForDonorsEnabled: false

@@ -13,7 +13,6 @@ public class PlayerInteract implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         CPlayer player = Core.getPlayerManager().getPlayer(e.getPlayer());
-
         if (e.getMaterial().equals(Material.NETHER_STAR)) {
             InventoryNav.openInventory(player);
         }

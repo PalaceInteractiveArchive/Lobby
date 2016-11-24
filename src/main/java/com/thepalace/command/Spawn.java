@@ -24,8 +24,8 @@ public class Spawn extends CoreCommand {
         lobby.getConfig().set("x", player.getLocation().getBlockX());
         lobby.getConfig().set("y", player.getLocation().getBlockY());
         lobby.getConfig().set("z", player.getLocation().getBlockZ());
-        lobby.getConfig().set("pitch", player.getLocation().getPitch());
         lobby.getConfig().set("yaw", player.getLocation().getYaw());
+        lobby.getConfig().set("pitch", player.getLocation().getPitch());
         lobby.saveConfig();
         player.sendMessage(ChatColor.GREEN + "Spawn set to your position");
     }
