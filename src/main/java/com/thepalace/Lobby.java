@@ -62,7 +62,7 @@ public class Lobby extends Plugin {
         }
     }
 
-    public boolean doesPalaceCoreExist() {
+    private boolean doesPalaceCoreExist() {
         try  {
             Class.forName("com.palacemc.palacecore.PalaceCore");
             return true;
@@ -71,7 +71,7 @@ public class Lobby extends Plugin {
         }
     }
 
-    public boolean doesVanishExist() {
+    private boolean doesVanishExist() {
         try  {
             Class.forName("org.kitteh.vanish.VanishManager");
             return true;

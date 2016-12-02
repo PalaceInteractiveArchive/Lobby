@@ -14,11 +14,6 @@ public class InventoryClick implements Listener {
     public void onInventoryClickEvent(InventoryClickEvent e) {
         CPlayer player = Core.getPlayerManager().getPlayer((Player) e.getWhoClicked());
         if (e.getCurrentItem() == null) return;
-        if (e.getCurrentItem().hasItemMeta()) {
-            if (e.getCurrentItem().getItemMeta().getDisplayName() != null && e.getCurrentItem().getItemMeta().getDisplayName().equals(InventoryNav.NAV_NAME)) {
-                e.setCancelled(true);
-            }
-        }
         if (e.getClickedInventory() == null) return;
         String inventoryName = e.getClickedInventory().getName();
         if (inventoryName == null || inventoryName.trim().isEmpty()) return;

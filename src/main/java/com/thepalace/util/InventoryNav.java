@@ -1,6 +1,7 @@
 package com.thepalace.util;
 
 import com.thepalace.ServerInfo;
+import com.thepalace.core.ItemUtils;
 import com.thepalace.core.player.CPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class InventoryNav {
 
-    public static final Material NAV_MATERIAL = Material.NETHER_STAR;
+    private static final Material NAV_MATERIAL = Material.NETHER_STAR;
     public static final String NAV_NAME = ChatColor.DARK_AQUA + "Navigation";
     private static final int NAV_SIZE = 9;
 
@@ -23,13 +24,15 @@ public class InventoryNav {
     };
 
     public static void giveNav(CPlayer player) {
-        player.getInventory().setItem(4, InventoryNav.nameItem(new ItemStack(NAV_MATERIAL), NAV_NAME));
+        ItemStack itemNav = InventoryNav.nameItem(new ItemStack(NAV_MATERIAL), NAV_NAME);
+        player.getInventory().setItem(4, ItemUtils.makeUnableToMove(itemNav));
     }
 
     public static void openInventory(CPlayer player) {
         Inventory inventory = Bukkit.createInventory(null, NAV_SIZE, NAV_NAME);
         for (ServerInfo server : servers) {
-            inventory.setItem(server.getPosition(), nameItem(new ItemStack(server.getItem()), server.getName()));
+            ItemStack serverItem = nameItem(new ItemStack(server.getItem()), server.getName());
+            inventory.setItem(server.getPosition(), ItemUtils.makeUnableToMove(serverItem));
         }
         player.openInventory(inventory);
     }
