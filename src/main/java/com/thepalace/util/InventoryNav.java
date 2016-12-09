@@ -1,8 +1,8 @@
 package com.thepalace.util;
 
+import com.palacemc.core.ItemUtils;
+import com.palacemc.core.player.CPlayer;
 import com.thepalace.ServerInfo;
-import com.thepalace.core.ItemUtils;
-import com.thepalace.core.player.CPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

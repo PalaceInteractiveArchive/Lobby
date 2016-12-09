@@ -1,7 +1,7 @@
 package com.thepalace.listeners;
 
-import com.thepalace.core.Core;
-import com.thepalace.core.player.CPlayer;
+import com.palacemc.core.Core;
+import com.palacemc.core.player.CPlayer;
 import com.thepalace.util.InventoryNav;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

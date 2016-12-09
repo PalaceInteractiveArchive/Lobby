@@ -1,9 +1,9 @@
 package com.thepalace;
 
+import com.palacemc.core.Core;
+import com.palacemc.core.plugin.Plugin;
+import com.palacemc.core.plugin.PluginInfo;
 import com.thepalace.command.*;
-import com.thepalace.core.Core;
-import com.thepalace.core.plugin.Plugin;
-import com.thepalace.core.plugin.PluginInfo;
 import com.thepalace.listeners.*;
 import com.thepalace.resourcepack.PackManager;
 import org.bukkit.ChatColor;

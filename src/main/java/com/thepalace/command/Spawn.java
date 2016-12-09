@@ -1,12 +1,11 @@
 package com.thepalace.command;
 
+import com.palacemc.core.command.CommandException;
+import com.palacemc.core.command.CommandMeta;
+import com.palacemc.core.command.CommandPermission;
+import com.palacemc.core.command.CoreCommand;
+import com.palacemc.core.player.CPlayer;
 import com.thepalace.Lobby;
-import com.thepalace.core.Core;
-import com.thepalace.core.command.CommandException;
-import com.thepalace.core.command.CommandMeta;
-import com.thepalace.core.command.CommandPermission;
-import com.thepalace.core.command.CoreCommand;
-import com.thepalace.core.player.CPlayer;
 import org.bukkit.ChatColor;
 
 @CommandMeta(description="Set the world spawn for player login")

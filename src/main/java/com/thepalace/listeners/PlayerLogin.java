@@ -1,10 +1,13 @@
 package com.thepalace.listeners;
 
+import com.palacemc.core.events.CorePlayerJoinDelayedEvent;
+import com.palacemc.core.player.CPlayer;
 import com.thepalace.Lobby;
-import com.thepalace.core.events.CorePlayerJoinDelayedEvent;
-import com.thepalace.core.player.CPlayer;
 import com.thepalace.util.InventoryNav;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

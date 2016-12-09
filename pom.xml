@@ -20,9 +20,15 @@
             <name>main-repo</name>
             <url>http://198.24.160.106:81/nexus/content/repositories/releases/</url>
         </repository>
+
         <repository>
             <id>kitteh-repo</id>
             <url>http://repo.kitteh.org/content/groups/public/</url>
+        </repository>
+
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
@@ -33,22 +39,32 @@
             <version>1.16.10</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
-            <groupId>com.thepalace</groupId>
+            <groupId>com.palacemc</groupId>
             <artifactId>Core</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>com.palacemc</groupId>
             <artifactId>palacecore</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.kitteh</groupId>
             <artifactId>VanishNoPacket</artifactId>
             <version>3.19</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

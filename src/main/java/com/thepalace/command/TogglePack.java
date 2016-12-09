@@ -1,10 +1,10 @@
 package com.thepalace.command;
 
+import com.palacemc.core.command.CommandException;
+import com.palacemc.core.command.CommandMeta;
+import com.palacemc.core.command.CommandPermission;
+import com.palacemc.core.command.CoreCommand;
 import com.thepalace.Lobby;
-import com.thepalace.core.command.CommandException;
-import com.thepalace.core.command.CommandMeta;
-import com.thepalace.core.command.CommandPermission;
-import com.thepalace.core.command.CoreCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
