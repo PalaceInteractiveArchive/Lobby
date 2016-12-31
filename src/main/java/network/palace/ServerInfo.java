@@ -1,4 +1,4 @@
-package com.thepalace;
+package network.palace;
 
 import lombok.Getter;
 import org.bukkit.Material;

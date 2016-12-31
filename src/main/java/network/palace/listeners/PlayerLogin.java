@@ -1,9 +1,9 @@
-package com.thepalace.listeners;
+package network.palace.listeners;
 
-import com.palacemc.core.events.CorePlayerJoinDelayedEvent;
-import com.palacemc.core.player.CPlayer;
-import com.thepalace.Lobby;
-import com.thepalace.util.InventoryNav;
+import network.palace.Lobby;
+import network.palace.core.events.CorePlayerJoinDelayedEvent;
+import network.palace.core.player.CPlayer;
+import network.palace.util.InventoryNav;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -15,6 +15,7 @@ public class PlayerLogin implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onLogin(CorePlayerJoinDelayedEvent e) {
+        e.setJoinMessage("");
         CPlayer player = e.getPlayer();
 
         Lobby lobby = Lobby.getPlugin(Lobby.class);

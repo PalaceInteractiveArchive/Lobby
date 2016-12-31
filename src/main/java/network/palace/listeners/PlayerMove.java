@@ -1,8 +1,8 @@
-package com.thepalace.listeners;
+package network.palace.listeners;
 
-import com.palacemc.core.Core;
-import com.palacemc.core.player.CPlayer;
-import com.thepalace.Lobby;
+import network.palace.Lobby;
+import network.palace.core.Core;
+import network.palace.core.player.CPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;

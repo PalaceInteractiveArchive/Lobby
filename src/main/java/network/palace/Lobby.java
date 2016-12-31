@@ -1,11 +1,11 @@
-package com.thepalace;
+package network.palace;
 
-import com.palacemc.core.Core;
-import com.palacemc.core.plugin.Plugin;
-import com.palacemc.core.plugin.PluginInfo;
-import com.thepalace.command.*;
-import com.thepalace.listeners.*;
-import com.thepalace.resourcepack.PackManager;
+import network.palace.core.Core;
+import network.palace.core.plugin.Plugin;
+import network.palace.core.plugin.PluginInfo;
+import network.palace.command.*;
+import network.palace.listeners.*;
+import network.palace.resourcepack.PackManager;
 import org.bukkit.ChatColor;
 
 import java.io.File;
@@ -24,18 +24,16 @@ public class Lobby extends Plugin {
         registerListener(new PlayerMove());
         registerListener(new PlayerInteract());
 
-        if (doesPalaceCoreExist()) {
-            registerListener(new PackManager());
-            registerListener(new DonatorFlight());
-            if (doesVanishExist()) {
-                registerListener(new VanishJoinListener());
-            }
+        registerListener(new PackManager());
+        registerListener(new DonatorFlight());
+        if (doesVanishExist()) {
+            registerListener(new VanishJoinListener());
         } else {
-            Core.logMessage(getInfo().name(), ChatColor.RED + "PALACE CORE IS NOT LOADED");
+            Core.logMessage(getInfo().name(), ChatColor.RED + "VANISH IS NOT LOADED");
         }
 
-        registerCommand(new ServerName());
-        registerCommand(new Spawn());
+        registerCommand(new SetServerName());
+        registerCommand(new SetSpawn());
         registerCommand(new ToggleDonatorFly());
         registerCommand(new TogglePack());
         registerCommand(new ToggleTitle());
@@ -59,15 +57,6 @@ public class Lobby extends Plugin {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private boolean doesPalaceCoreExist() {
-        try  {
-            Class.forName("com.palacemc.palacecore.PalaceCore");
-            return true;
-        }  catch (ClassNotFoundException e) {
-            return false;
         }
     }
 

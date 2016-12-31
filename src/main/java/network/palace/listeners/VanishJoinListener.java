@@ -1,7 +1,7 @@
-package com.thepalace.listeners;
+package network.palace.listeners;
 
-import com.palacemc.palacecore.PalaceCore;
-import com.palacemc.palacecore.permissions.Rank;
+import network.palace.core.Core;
+import network.palace.core.player.Rank;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -12,10 +12,9 @@ public class VanishJoinListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        e.setJoinMessage("");
         VanishManager vanishManager = VanishPlugin.getPlugin(VanishPlugin.class).getManager();
         if (!vanishManager.isVanished(e.getPlayer())) {
-            if (PalaceCore.getUser(e.getPlayer().getUniqueId()).getRank().getRankId() >= Rank.CHARACTER.getRankId()) {
+            if (Core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId()).getRank().getRankId() >= Rank.CHARACTER.getRankId()) {
                 vanishManager.toggleVanishQuiet(e.getPlayer().getPlayer(), false);
             }
         }

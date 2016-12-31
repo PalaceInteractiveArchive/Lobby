@@ -1,18 +1,19 @@
-package com.thepalace.command;
+package network.palace.command;
 
-import com.palacemc.core.command.CommandException;
-import com.palacemc.core.command.CommandMeta;
-import com.palacemc.core.command.CommandPermission;
-import com.palacemc.core.command.CoreCommand;
-import com.palacemc.core.player.CPlayer;
-import com.thepalace.Lobby;
+import network.palace.Lobby;
+import network.palace.core.command.CommandException;
+import network.palace.core.command.CommandMeta;
+import network.palace.core.command.CommandPermission;
+import network.palace.core.command.CoreCommand;
+import network.palace.core.player.CPlayer;
+import network.palace.core.player.Rank;
 import org.bukkit.ChatColor;
 
 @CommandMeta(description="Set the world spawn for player login")
-@CommandPermission("lobby.setspawn")
-public class Spawn extends CoreCommand {
+@CommandPermission(rank = Rank.WIZARD)
+public class SetSpawn extends CoreCommand {
 
-    public Spawn() {
+    public SetSpawn() {
         super("setspawn");
     }
 

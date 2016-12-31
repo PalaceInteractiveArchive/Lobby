@@ -1,8 +1,8 @@
-package com.thepalace.listeners;
+package network.palace.listeners;
 
-import com.palacemc.core.Core;
-import com.palacemc.core.player.CPlayer;
-import com.thepalace.util.InventoryNav;
+import network.palace.core.Core;
+import network.palace.core.player.CPlayer;
+import network.palace.util.InventoryNav;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

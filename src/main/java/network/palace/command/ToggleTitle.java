@@ -1,15 +1,16 @@
-package com.thepalace.command;
+package network.palace.command;
 
-import com.palacemc.core.command.CommandException;
-import com.palacemc.core.command.CommandMeta;
-import com.palacemc.core.command.CommandPermission;
-import com.palacemc.core.command.CoreCommand;
-import com.thepalace.Lobby;
+import network.palace.Lobby;
+import network.palace.core.command.CommandException;
+import network.palace.core.command.CommandMeta;
+import network.palace.core.command.CommandPermission;
+import network.palace.core.command.CoreCommand;
+import network.palace.core.player.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 @CommandMeta(description="Toggles the title message on join")
-@CommandPermission("lobby.toggletitle")
+@CommandPermission(rank = Rank.WIZARD)
 public class ToggleTitle extends CoreCommand {
 
     public ToggleTitle() {

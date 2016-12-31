@@ -1,8 +1,8 @@
-package com.thepalace.util;
+package network.palace.util;
 
-import com.palacemc.core.ItemUtils;
-import com.palacemc.core.player.CPlayer;
-import com.thepalace.ServerInfo;
+import network.palace.core.utils.ItemUtil;
+import network.palace.core.player.CPlayer;
+import network.palace.ServerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,14 +25,14 @@ public class InventoryNav {
 
     public static void giveNav(CPlayer player) {
         ItemStack itemNav = InventoryNav.nameItem(new ItemStack(NAV_MATERIAL), NAV_NAME);
-        player.getInventory().setItem(4, ItemUtils.makeUnableToMove(itemNav));
+        player.getInventory().setItem(4, ItemUtil.makeUnableToMove(itemNav));
     }
 
     public static void openInventory(CPlayer player) {
         Inventory inventory = Bukkit.createInventory(null, NAV_SIZE, NAV_NAME);
         for (ServerInfo server : servers) {
             ItemStack serverItem = nameItem(new ItemStack(server.getItem()), server.getName());
-            inventory.setItem(server.getPosition(), ItemUtils.makeUnableToMove(serverItem));
+            inventory.setItem(server.getPosition(), ItemUtil.makeUnableToMove(serverItem));
         }
         player.openInventory(inventory);
     }
