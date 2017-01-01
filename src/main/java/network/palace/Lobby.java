@@ -1,9 +1,9 @@
 package network.palace;
 
+import network.palace.command.*;
 import network.palace.core.Core;
 import network.palace.core.plugin.Plugin;
 import network.palace.core.plugin.PluginInfo;
-import network.palace.command.*;
 import network.palace.listeners.*;
 import network.palace.resourcepack.PackManager;
 import org.bukkit.ChatColor;
@@ -17,27 +17,8 @@ public class Lobby extends Plugin {
     public void onPluginEnable() {
         checkConfig();
 
-        registerListener(new PlayerLogin());
-        registerListener(new InventoryClick());
-        registerListener(new PlayerInteract());
-        registerListener(new PlayerDropItem());
-        registerListener(new PlayerMove());
-        registerListener(new PlayerInteract());
-        registerListener(new TntExplosion());
-
-        registerListener(new PackManager());
-        registerListener(new DonatorFlight());
-        if (doesVanishExist()) {
-            registerListener(new VanishJoinListener());
-        } else {
-            Core.logMessage(getInfo().name(), ChatColor.RED + "VANISH IS NOT LOADED");
-        }
-
-        registerCommand(new SetServerName());
-        registerCommand(new SetSpawn());
-        registerCommand(new ToggleDonatorFly());
-        registerCommand(new TogglePack());
-        registerCommand(new ToggleTitle());
+        registerCommands();
+        registerListeners();
     }
 
     @Override
@@ -67,6 +48,35 @@ public class Lobby extends Plugin {
             return true;
         }  catch (ClassNotFoundException e) {
             return false;
+        }
+    }
+
+    private void registerCommands() {
+        registerCommand(new SetServerName());
+        registerCommand(new SetSpawn());
+        registerCommand(new ToggleDonatorFly());
+        registerCommand(new TogglePack());
+        registerCommand(new ToggleTitle());
+    }
+
+    private void registerListeners() {
+        registerListener(new PlayerLogin());
+        registerListener(new InventoryClick());
+        registerListener(new PlayerInteract());
+        registerListener(new PlayerDropItem());
+        registerListener(new PlayerMove());
+        registerListener(new PlayerInteract());
+        registerListener(new TntExplosion());
+
+        registerListener(new PlayerJoinLeave());
+
+        registerListener(new PackManager());
+        registerListener(new DonatorFlight());
+
+        if (doesVanishExist()) {
+            registerListener(new VanishJoinListener());
+        } else {
+            Core.logMessage(getInfo().name(), ChatColor.RED + "VANISH IS NOT LOADED");
         }
     }
 }
