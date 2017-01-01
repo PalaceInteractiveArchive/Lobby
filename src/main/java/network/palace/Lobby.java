@@ -23,6 +23,7 @@ public class Lobby extends Plugin {
         registerListener(new PlayerDropItem());
         registerListener(new PlayerMove());
         registerListener(new PlayerInteract());
+        registerListener(new TntExplosion());
 
         registerListener(new PackManager());
         registerListener(new DonatorFlight());

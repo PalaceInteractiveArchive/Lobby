@@ -20,6 +20,7 @@
             <name>main-repo</name>
             <url>http://198.24.160.106:81/nexus/content/repositories/releases/</url>
         </repository>
+
         <repository>
             <id>kitteh-repo</id>
             <url>http://repo.kitteh.org/content/groups/public/</url>
@@ -32,6 +33,7 @@
             <artifactId>Core</artifactId>
             <version>1.4.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.kitteh</groupId>
             <artifactId>VanishNoPacket</artifactId>
