@@ -15,7 +15,6 @@ public class PlayerLogin implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onLogin(CorePlayerJoinDelayedEvent e) {
-        e.setJoinMessage("");
         CPlayer player = e.getPlayer();
 
         Lobby lobby = Lobby.getPlugin(Lobby.class);

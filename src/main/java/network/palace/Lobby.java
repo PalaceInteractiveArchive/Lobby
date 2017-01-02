@@ -1,12 +1,10 @@
 package network.palace;
 
 import network.palace.command.*;
-import network.palace.core.Core;
 import network.palace.core.plugin.Plugin;
 import network.palace.core.plugin.PluginInfo;
 import network.palace.listeners.*;
 import network.palace.resourcepack.PackManager;
-import org.bukkit.ChatColor;
 
 import java.io.File;
 
@@ -42,15 +40,6 @@ public class Lobby extends Plugin {
         }
     }
 
-    private boolean doesVanishExist() {
-        try  {
-            Class.forName("org.kitteh.vanish.VanishManager");
-            return true;
-        }  catch (ClassNotFoundException e) {
-            return false;
-        }
-    }
-
     private void registerCommands() {
         registerCommand(new SetServerName());
         registerCommand(new SetSpawn());
@@ -68,15 +57,7 @@ public class Lobby extends Plugin {
         registerListener(new PlayerInteract());
         registerListener(new TntExplosion());
 
-        registerListener(new PlayerJoinLeave());
-
         registerListener(new PackManager());
         registerListener(new DonatorFlight());
-
-        if (doesVanishExist()) {
-            registerListener(new VanishJoinListener());
-        } else {
-            Core.logMessage(getInfo().name(), ChatColor.RED + "VANISH IS NOT LOADED");
-        }
     }
 }

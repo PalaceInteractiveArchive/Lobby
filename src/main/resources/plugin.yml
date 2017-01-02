@@ -1,5 +1,4 @@
 name: Lobby
 version: 1.0
 depend: [Core]
-softDepend: [VanishNoPacket]
 main: network.palace.Lobby
