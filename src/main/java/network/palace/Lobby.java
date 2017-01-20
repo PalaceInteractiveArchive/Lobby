@@ -1,22 +1,26 @@
 package network.palace;
 
+import lombok.Getter;
 import network.palace.command.*;
 import network.palace.core.plugin.Plugin;
 import network.palace.core.plugin.PluginInfo;
 import network.palace.listeners.*;
 import network.palace.resourcepack.PackManager;
+import network.palace.util.InventoryNav;
 
 import java.io.File;
 
-@PluginInfo(name = "Lobby")
+@PluginInfo(name = "Lobby", version = "1.0.0", depend = {"Core"})
 public class Lobby extends Plugin {
+
+    @Getter private InventoryNav inventoryNav;
 
     @Override
     public void onPluginEnable() {
         checkConfig();
-
         registerCommands();
         registerListeners();
+        inventoryNav = new InventoryNav();
     }
 
     @Override
@@ -50,13 +54,11 @@ public class Lobby extends Plugin {
 
     private void registerListeners() {
         registerListener(new PlayerLogin());
-        registerListener(new InventoryClick());
         registerListener(new PlayerInteract());
         registerListener(new PlayerDropItem());
         registerListener(new PlayerMove());
         registerListener(new PlayerInteract());
         registerListener(new TntExplosion());
-
         registerListener(new PackManager());
         registerListener(new DonatorFlight());
     }

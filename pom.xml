@@ -20,7 +20,6 @@
             <name>main-repo</name>
             <url>http://198.24.160.106:81/nexus/content/repositories/releases/</url>
         </repository>
-
         <repository>
             <id>kitteh-repo</id>
             <url>http://repo.kitteh.org/content/groups/public/</url>
@@ -31,7 +30,7 @@
         <dependency>
             <groupId>network.palace</groupId>
             <artifactId>Core</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.4</version>
         </dependency>
     </dependencies>
 

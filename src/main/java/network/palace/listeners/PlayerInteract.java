@@ -1,5 +1,6 @@
 package network.palace.listeners;
 
+import network.palace.Lobby;
 import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
 import network.palace.util.InventoryNav;
@@ -14,7 +15,7 @@ public class PlayerInteract implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         CPlayer player = Core.getPlayerManager().getPlayer(e.getPlayer());
         if (e.getMaterial().equals(Material.NETHER_STAR)) {
-            InventoryNav.openInventory(player);
+            Lobby.getPlugin(Lobby.class).getInventoryNav().openInventory(player);
         }
     }
 }
