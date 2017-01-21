@@ -1,9 +1,8 @@
 package network.palace.util;
 
-import network.palace.core.inventory.ClickAction;
-import network.palace.core.inventory.CoreInventory;
-import network.palace.core.inventory.CoreInventoryClick;
-import network.palace.core.inventory.InventoryButton;
+import network.palace.core.inventory.InventoryClick;
+import network.palace.core.inventory.impl.Inventory;
+import network.palace.core.inventory.impl.InventoryButton;
 import network.palace.core.utils.ItemUtil;
 import network.palace.core.player.CPlayer;
 import network.palace.ServerInfo;
@@ -25,13 +24,13 @@ public class InventoryNav {
             new ServerInfo("Hub", "Hub1", 6, Material.WOOL)
     };
 
-    private CoreInventory inv;
+    private Inventory inv;
 
     public InventoryNav() {
-        inv = new CoreInventory(NAV_SIZE, NAV_NAME);
+        inv = new Inventory(NAV_SIZE, NAV_NAME);
         for (ServerInfo server : SERVERS) {
             ItemStack item = nameItem(new ItemStack(server.getItem()), server.getName());
-            CoreInventoryClick click = (player, clickAction) -> sendToServer(player, server);
+            InventoryClick click = (player, clickAction) -> sendToServer(player, server);
             inv.addButton(new InventoryButton(item, click), server.getPosition());
         }
     }
