@@ -7,6 +7,8 @@ import network.palace.core.plugin.PluginInfo;
 import network.palace.listeners.*;
 import network.palace.resourcepack.PackManager;
 import network.palace.util.InventoryNav;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.io.File;
 
@@ -15,16 +17,26 @@ public class Lobby extends Plugin {
 
     @Getter private InventoryNav inventoryNav;
 
+    @Getter private Location spawn;
+
     @Override
     public void onPluginEnable() {
         checkConfig();
         registerCommands();
         registerListeners();
         inventoryNav = new InventoryNav();
+
+        spawn = new Location(Bukkit.getWorld(getConfig().getString("world")),
+                getConfig().getInt("x"),
+                getConfig().getInt("y"),
+                getConfig().getInt("z"),
+                getConfig().getInt("yaw"),
+                getConfig().getInt("pitch"));
     }
 
     @Override
     public void onPluginDisable() {
+
     }
 
     private void checkConfig() {

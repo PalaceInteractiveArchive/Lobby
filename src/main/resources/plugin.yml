@@ -1,4 +1,0 @@
-name: Lobby
-version: 1.0
-depend: [Core]
-main: network.palace.Lobby

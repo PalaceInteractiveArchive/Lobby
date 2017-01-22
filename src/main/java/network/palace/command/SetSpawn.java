@@ -20,13 +20,16 @@ public class SetSpawn extends CoreCommand {
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
         Lobby lobby = Lobby.getPlugin(Lobby.class);
+
         lobby.getConfig().set("world", player.getLocation().getWorld().getName());
         lobby.getConfig().set("x", player.getLocation().getBlockX());
         lobby.getConfig().set("y", player.getLocation().getBlockY());
         lobby.getConfig().set("z", player.getLocation().getBlockZ());
         lobby.getConfig().set("yaw", player.getLocation().getYaw());
         lobby.getConfig().set("pitch", player.getLocation().getPitch());
+
         lobby.saveConfig();
+
         player.sendMessage(ChatColor.GREEN + "Spawn set to your position");
     }
 }
