@@ -1,15 +1,15 @@
-package network.palace.command;
+package network.palace.lobby.command;
 
-import network.palace.Lobby;
 import network.palace.core.command.CommandException;
 import network.palace.core.command.CommandMeta;
 import network.palace.core.command.CommandPermission;
 import network.palace.core.command.CoreCommand;
 import network.palace.core.player.Rank;
+import network.palace.lobby.Lobby;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-@CommandMeta(description="Set the server name for tab list")
+@CommandMeta(description = "Set the server name for tab list")
 @CommandPermission(rank = Rank.WIZARD)
 public class SetServerName extends CoreCommand {
 

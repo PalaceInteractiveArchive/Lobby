@@ -1,6 +1,6 @@
-package network.palace.resourcepack;
+package network.palace.lobby.resourcepack;
 
-import network.palace.Lobby;
+import network.palace.lobby.Lobby;
 import network.palace.core.Core;
 import network.palace.core.events.CurrentPackReceivedEvent;
 import org.bukkit.event.EventHandler;

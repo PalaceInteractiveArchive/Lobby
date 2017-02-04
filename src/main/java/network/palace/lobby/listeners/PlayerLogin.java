@@ -1,6 +1,6 @@
-package network.palace.listeners;
+package network.palace.lobby.listeners;
 
-import network.palace.Lobby;
+import network.palace.lobby.Lobby;
 import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
 import org.bukkit.ChatColor;

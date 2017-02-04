@@ -30,7 +30,7 @@
         <dependency>
             <groupId>network.palace</groupId>
             <artifactId>Core</artifactId>
-            <version>1.6.0</version>
+            <version>1.6.5</version>
         </dependency>
     </dependencies>
 

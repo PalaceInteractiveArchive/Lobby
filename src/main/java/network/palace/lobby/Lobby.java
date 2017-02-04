@@ -1,18 +1,23 @@
-package network.palace;
+package network.palace.lobby;
 
 import lombok.Getter;
-import network.palace.command.*;
+import network.palace.core.Core;
+import network.palace.core.player.CPlayer;
+import network.palace.core.player.Rank;
 import network.palace.core.plugin.Plugin;
 import network.palace.core.plugin.PluginInfo;
-import network.palace.listeners.*;
-import network.palace.resourcepack.PackManager;
-import network.palace.util.InventoryNav;
+import network.palace.lobby.command.*;
+import network.palace.lobby.listeners.*;
+import network.palace.lobby.resourcepack.PackManager;
+import network.palace.lobby.util.InventoryNav;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 
 import java.io.File;
 
-@PluginInfo(name = "Lobby", version = "1.0.0", depend = {"Core"})
+@PluginInfo(name = "Lobby", version = "1.1.0", depend = {"Core"}, canReload = true)
 public class Lobby extends Plugin {
 
     @Getter private InventoryNav inventoryNav;
@@ -32,11 +37,31 @@ public class Lobby extends Plugin {
                 getConfig().getInt("z"),
                 getConfig().getInt("yaw"),
                 getConfig().getInt("pitch"));
+        for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {
+            player.getHeaderFooter().setHeader(ChatColor.GOLD + "Palace Network - A Family of Servers");
+            player.getHeaderFooter().setFooter(ChatColor.LIGHT_PURPLE + "You're at the " + ChatColor.GOLD +
+                    getConfig().getString("serverName"));
+            inventoryNav.giveNav(player);
+            player.setGamemode(GameMode.ADVENTURE);
+            if (getConfig().getBoolean("titleEnabled")) {
+                player.getActionBar().show(ChatColor.LIGHT_PURPLE + "Use your Nether Star to navigate!");
+            }
+            if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) {
+                player.getBukkitPlayer().setAllowFlight(true);
+            }
+            if (Lobby.getPlugin(Lobby.class).getConfig().getBoolean("flightForDonorsEnabled") &&
+                    player.getRank().getRankId() >= Rank.DWELLER.getRankId()) {
+                player.getBukkitPlayer().setAllowFlight(true);
+            }
+        }
     }
 
     @Override
     public void onPluginDisable() {
-
+        for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {
+            player.getInventory().clear(4);
+            player.closeInventory();
+        }
     }
 
     private void checkConfig() {
@@ -72,6 +97,6 @@ public class Lobby extends Plugin {
         registerListener(new PlayerInteract());
         registerListener(new TntExplosion());
         registerListener(new PackManager());
-        registerListener(new DonatorFlight());
+        registerListener(new PlayerFlight());
     }
 }

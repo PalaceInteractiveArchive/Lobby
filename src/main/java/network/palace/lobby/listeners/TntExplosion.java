@@ -1,4 +1,4 @@
-package network.palace.listeners;
+package network.palace.lobby.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

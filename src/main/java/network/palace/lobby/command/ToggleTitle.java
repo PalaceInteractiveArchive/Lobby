@@ -1,28 +1,27 @@
-package network.palace.command;
+package network.palace.lobby.command;
 
-import network.palace.Lobby;
 import network.palace.core.command.CommandException;
 import network.palace.core.command.CommandMeta;
 import network.palace.core.command.CommandPermission;
 import network.palace.core.command.CoreCommand;
 import network.palace.core.player.Rank;
+import network.palace.lobby.Lobby;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-@CommandMeta(description="Toggles the flying for donators on and off")
+@CommandMeta(description = "Toggles the title message on join")
 @CommandPermission(rank = Rank.WIZARD)
-public class ToggleDonatorFly extends CoreCommand {
+public class ToggleTitle extends CoreCommand {
 
-    public ToggleDonatorFly() {
-        super("toggledonatorfly");
+    public ToggleTitle() {
+        super("toggletitle");
     }
 
     @Override
     protected void handleCommandUnspecific(CommandSender sender, String[] args) throws CommandException {
-        if (args.length <= 0) return;
         Lobby lobby = Lobby.getPlugin(Lobby.class);
-        lobby.getConfig().set("flightForDonorsEnabled", !lobby.getConfig().getBoolean("flightForDonorsEnabled"));
+        lobby.getConfig().set("titleEnabled", !lobby.getConfig().getBoolean("titleEnabled"));
         lobby.saveConfig();
-        sender.sendMessage(ChatColor.GREEN + "Flight for donators is " + lobby.getConfig().getBoolean("flightForDonorsEnabled"));
+        sender.sendMessage(ChatColor.GREEN + "Showing title on join is " + lobby.getConfig().getBoolean("titleEnabled"));
     }
 }

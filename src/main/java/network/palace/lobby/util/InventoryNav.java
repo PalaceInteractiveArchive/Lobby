@@ -1,15 +1,14 @@
-package network.palace.util;
+package network.palace.lobby.util;
 
 import network.palace.core.inventory.InventoryClick;
 import network.palace.core.inventory.impl.Inventory;
 import network.palace.core.inventory.impl.InventoryButton;
-import network.palace.core.utils.ItemUtil;
 import network.palace.core.player.CPlayer;
-import network.palace.ServerInfo;
+import network.palace.core.utils.ItemUtil;
+import network.palace.lobby.ServerInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class InventoryNav {
 
@@ -29,14 +28,14 @@ public class InventoryNav {
     public InventoryNav() {
         inv = new Inventory(NAV_SIZE, NAV_NAME);
         for (ServerInfo server : SERVERS) {
-            ItemStack item = nameItem(new ItemStack(server.getItem()), server.getName());
+            ItemStack item = ItemUtil.create(server.getItem(), ChatColor.AQUA + server.getName());
             InventoryClick click = (player, clickAction) -> sendToServer(player, server);
             inv.addButton(new InventoryButton(item, click), server.getPosition());
         }
     }
 
     public void giveNav(CPlayer player) {
-        ItemStack itemNav = nameItem(new ItemStack(NAV_MATERIAL), NAV_NAME);
+        ItemStack itemNav = ItemUtil.create(NAV_MATERIAL, NAV_NAME);
         player.getInventory().setItem(4, ItemUtil.makeUnableToMove(itemNav));
     }
 
@@ -48,12 +47,5 @@ public class InventoryNav {
         if (server == null) return;
         player.sendMessage(ChatColor.GREEN + "Sending you to " + server.getName() + "...");
         player.sendToServer(server.getLocation());
-    }
-
-    private ItemStack nameItem(ItemStack itemStack, String name) {
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(name);
-        itemStack.setItemMeta(meta);
-        return itemStack;
     }
 }

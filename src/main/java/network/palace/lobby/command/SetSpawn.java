@@ -1,6 +1,6 @@
-package network.palace.command;
+package network.palace.lobby.command;
 
-import network.palace.Lobby;
+import network.palace.lobby.Lobby;
 import network.palace.core.command.CommandException;
 import network.palace.core.command.CommandMeta;
 import network.palace.core.command.CommandPermission;
