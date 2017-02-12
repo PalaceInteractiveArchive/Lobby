@@ -29,7 +29,7 @@ public class PlayerLogin implements Listener {
                 player.getActionBar().show(ChatColor.LIGHT_PURPLE + "Use your Nether Star to navigate!");
             }
 
-            player.getTitle().show(ChatColor.RED + "Valentine's Sale!", ChatColor.DARK_RED + "15% off ALL ranks!", 0, 3, 0);
+            player.getTitle().show(ChatColor.RED + "Valentine's Sale!", ChatColor.DARK_RED + "15% off ALL ranks!", 0, 60, 0);
         }, 10L);
     }
 }
