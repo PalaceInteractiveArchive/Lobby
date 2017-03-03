@@ -17,7 +17,7 @@ public class InventoryNav {
     private final int NAV_SIZE = 9;
 
     private final ServerInfo[] SERVERS = {
-            new ServerInfo("Parks", "TTC1", 2, Material.STICK),
+            new ServerInfo("Parks", "TTC", 2, Material.STICK),
             new ServerInfo("Creative", 3, Material.DIAMOND_PICKAXE),
             new ServerInfo("Arcade", 5, Material.BOW),
             new ServerInfo("Hub", "Hub1", 6, Material.WOOL)
