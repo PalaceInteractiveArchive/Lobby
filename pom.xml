@@ -16,21 +16,38 @@
 
     <repositories>
         <repository>
-            <id>repo</id>
-            <name>main-repo</name>
-            <url>http://198.24.160.106:81/nexus/content/repositories/releases/</url>
+            <id>palace</id>
+            <url>https://repo.palace.network/nexus/content/repositories/releases/</url>
         </repository>
         <repository>
-            <id>kitteh-repo</id>
-            <url>http://repo.kitteh.org/content/groups/public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>dmulloy2-releases</id>
+            <url>http://repo.dmulloy2.net/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>dmulloy2-snapshots</id>
+            <url>http://repo.dmulloy2.net/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>network.palace</groupId>
-            <artifactId>Core</artifactId>
+            <artifactId>core</artifactId>
             <version>1.6.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.11.2-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.10</version>
         </dependency>
     </dependencies>
 
