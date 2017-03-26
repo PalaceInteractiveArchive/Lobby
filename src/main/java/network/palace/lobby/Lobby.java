@@ -17,7 +17,7 @@ import org.bukkit.Location;
 
 import java.io.File;
 
-@PluginInfo(name = "Lobby", version = "1.1.0", depend = {"Core"}, canReload = true)
+@PluginInfo(name = "Lobby", version = "1.1.1", depend = {"Core"}, canReload = true)
 public class Lobby extends Plugin {
 
     @Getter private InventoryNav inventoryNav;
@@ -90,13 +90,12 @@ public class Lobby extends Plugin {
     }
 
     private void registerListeners() {
-        registerListener(new PlayerLogin());
-        registerListener(new PlayerInteract());
         registerListener(new PlayerDropItem());
-        registerListener(new PlayerMove());
+        registerListener(new PlayerFood());
         registerListener(new PlayerInteract());
+        registerListener(new PlayerLogin());
+        registerListener(new PlayerMove());
         registerListener(new TntExplosion());
         registerListener(new PackManager());
-        registerListener(new PlayerFlight());
     }
 }
