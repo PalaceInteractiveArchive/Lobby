@@ -90,6 +90,7 @@ public class Lobby extends Plugin {
     }
 
     private void registerListeners() {
+        registerListener(new LaunchPad());
         registerListener(new PlayerDropItem());
         registerListener(new PlayerFood());
         registerListener(new PlayerInteract());
