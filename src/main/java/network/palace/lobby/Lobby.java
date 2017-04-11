@@ -1,6 +1,7 @@
 package network.palace.lobby;
 
 import lombok.Getter;
+import lombok.Setter;
 import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
 import network.palace.core.player.Rank;
@@ -9,6 +10,7 @@ import network.palace.core.plugin.PluginInfo;
 import network.palace.lobby.command.*;
 import network.palace.lobby.listeners.*;
 import network.palace.lobby.resourcepack.PackManager;
+import network.palace.lobby.util.HubSelector;
 import network.palace.lobby.util.InventoryNav;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +23,9 @@ import java.io.File;
 public class Lobby extends Plugin {
 
     @Getter private InventoryNav inventoryNav;
+    @Getter private HubSelector hubSelector;
+
+    @Getter @Setter private boolean isHubSelectorEnabled = false;
 
     @Getter private Location spawn;
 
@@ -30,6 +35,9 @@ public class Lobby extends Plugin {
         registerCommands();
         registerListeners();
         inventoryNav = new InventoryNav();
+        hubSelector = new HubSelector();
+
+        isHubSelectorEnabled = getConfig().getBoolean("canSelectLobbies");
 
         spawn = new Location(Bukkit.getWorld(getConfig().getString("world")),
                 getConfig().getInt("x"), getConfig().getInt("y"), getConfig().getInt("z"),
@@ -38,7 +46,10 @@ public class Lobby extends Plugin {
         for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {
             player.getHeaderFooter().setHeader(ChatColor.GOLD + "Palace Network - A Family of Servers");
             player.getHeaderFooter().setFooter(ChatColor.LIGHT_PURPLE + "You're at the " + ChatColor.GOLD + getConfig().getString("serverName"));
+
             inventoryNav.giveNav(player);
+            hubSelector.giveNav(player);
+
             player.setGamemode(GameMode.ADVENTURE);
             if (getConfig().getBoolean("titleEnabled")) {
                 player.getActionBar().show(ChatColor.LIGHT_PURPLE + "Use your Nether Star to navigate!");
@@ -83,6 +94,8 @@ public class Lobby extends Plugin {
         registerCommand(new ToggleDonatorFly());
         registerCommand(new TogglePack());
         registerCommand(new ToggleTitle());
+        registerCommand(new AddNewLobby());
+        registerCommand(new ToggleSelectLobbies());
     }
 
     private void registerListeners() {

@@ -21,7 +21,10 @@ public class PlayerLogin implements Listener {
         e.getPlayer().getHeaderFooter().setFooter(ChatColor.LIGHT_PURPLE + "You're at the " + ChatColor.GOLD + lobby.getConfig().getString("serverName"));
 
         e.getPlayer().getInventory().clear();
+
         lobby.getInventoryNav().giveNav(e.getPlayer());
+        lobby.getHubSelector().giveNav(e.getPlayer());
+
         e.getPlayer().setGamemode(GameMode.ADVENTURE);
         if (e.getPlayer().getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) {
             e.getPlayer().setAllowFlight(true);

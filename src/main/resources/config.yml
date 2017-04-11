@@ -8,3 +8,9 @@ serverName: Hub
 packEnabled: true
 titleEnabled: true
 flightForDonorsEnabled: false
+canSelectLobbies: false
+
+hubs:
+  Hub1:
+    name: Hub1
+    server: Hub1
