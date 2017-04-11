@@ -29,6 +29,7 @@ public class InventoryNav {
 
         for (ServerInfo server : SERVERS) {
             ItemStack item = ItemUtil.create(server.getItem(), ChatColor.AQUA + server.getName());
+            item = ItemUtil.hideAttributes(item);
             InventoryClick click = (player, clickAction) -> sendToServer(player, server);
             inv.addButton(new InventoryButton(item, click), server.getPosition());
         }

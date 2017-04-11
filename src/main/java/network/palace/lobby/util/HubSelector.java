@@ -9,7 +9,6 @@ import network.palace.core.utils.ItemUtil;
 import network.palace.lobby.Lobby;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -43,7 +42,7 @@ public class HubSelector {
             String server = plugin.getConfig().getString("hubs." + hub + ".server");
 
             if (Core.getInstanceName().equals(server)) {
-                item.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1);
+                item = ItemUtil.addGlow(item);
             }
 
             InventoryClick click = (player, clickAction) -> sendToHub(player, server);
