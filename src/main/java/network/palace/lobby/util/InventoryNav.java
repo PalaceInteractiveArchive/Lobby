@@ -17,18 +17,19 @@ public class InventoryNav {
     private final int NAV_SIZE = 9;
 
     private final ServerInfo[] SERVERS = {
-            new ServerInfo("Parks", "TTC", 2, Material.STICK),
-            new ServerInfo("Creative", 3, Material.DIAMOND_PICKAXE),
-            new ServerInfo("Arcade", 5, Material.BOW),
-            new ServerInfo("Hub", "Hub1", 6, Material.WOOL)
+            new ServerInfo("Parks", "TTC", 4, Material.STICK),
+            new ServerInfo("Creative", 2, Material.DIAMOND_PICKAXE),
+            new ServerInfo("Arcade", 6, Material.BOW)
     };
 
     private Inventory inv;
 
     public InventoryNav() {
         inv = new Inventory(NAV_SIZE, NAV_NAME);
+
         for (ServerInfo server : SERVERS) {
             ItemStack item = ItemUtil.create(server.getItem(), ChatColor.AQUA + server.getName());
+            item = ItemUtil.hideAttributes(item);
             InventoryClick click = (player, clickAction) -> sendToServer(player, server);
             inv.addButton(new InventoryButton(item, click), server.getPosition());
         }

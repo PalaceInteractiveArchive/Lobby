@@ -15,6 +15,8 @@ public class PlayerInteract implements Listener {
         CPlayer player = Core.getPlayerManager().getPlayer(e.getPlayer());
         if (e.getMaterial().equals(Material.NETHER_STAR)) {
             Lobby.getPlugin(Lobby.class).getInventoryNav().openInventory(player);
+        } else if (e.getMaterial().equals(Material.BOOK)) {
+            Lobby.getPlugin(Lobby.class).getHubSelector().openInventory(player);
         }
     }
 }
