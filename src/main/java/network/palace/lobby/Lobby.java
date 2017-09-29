@@ -17,7 +17,7 @@ import org.bukkit.Location;
 
 import java.io.File;
 
-@PluginInfo(name = "Lobby", version = "1.1.1", depend = {"Core"}, canReload = true)
+@PluginInfo(name = "Lobby", version = "1.1.2", depend = {"Core"}, canReload = true)
 public class Lobby extends Plugin {
 
     @Getter private InventoryNav inventoryNav;

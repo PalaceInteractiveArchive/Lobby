@@ -10,7 +10,7 @@ import network.palace.core.player.Rank;
 import org.bukkit.ChatColor;
 
 @CommandMeta(description="Set the world spawn for player login")
-@CommandPermission(rank = Rank.WIZARD)
+@CommandPermission(rank = Rank.DEVELOPER)
 public class SetSpawn extends CoreCommand {
 
     public SetSpawn() {
