@@ -1,12 +1,13 @@
 package network.palace.lobby.listeners;
 
+import network.palace.core.Core;
+import network.palace.core.player.CPlayer;
 import network.palace.lobby.Lobby;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
@@ -32,7 +33,8 @@ public class LaunchPad implements Listener {
     public void onPlayerInteract(PlayerMoveEvent event) {
         // Player
         if (event.getPlayer() == null) return;
-        Player player = event.getPlayer();
+        CPlayer player = Core.getPlayerManager().getPlayer(event.getPlayer());
+        if (player == null) return;
         if (launchCooldown.contains(player.getUniqueId())) return;
         // Pressure plate
         if (player.getLocation().getBlock() == null) return;
@@ -47,14 +49,15 @@ public class LaunchPad implements Listener {
         // Get sign
         Sign sign = (Sign) blockUnder.getRelative(BlockFace.DOWN).getState();
         // Check if launch and valid
-        if (sign.getLine(0) == null && sign.getLine(1) == null && sign.getLine(2) == null && sign.getLine(3) == null) return;
+        if (sign.getLine(0) == null && sign.getLine(1) == null && sign.getLine(2) == null && sign.getLine(3) == null)
+            return;
         if (!sign.getLine(0).equals(ChatColor.GOLD + "[Launch]")) return;
         if (!checkIfDouble(sign.getLine(1))) return;
         if (!checkIfDouble(sign.getLine(2))) return;
         if (!checkIfDouble(sign.getLine(3))) return;
         // Set vector and send them off
         launchCooldown.add(player.getUniqueId());
-        Vector velocity = new Vector(getDouble(sign.getLine(1)),getDouble(sign.getLine(2)), getDouble(sign.getLine(3)));
+        Vector velocity = new Vector(getDouble(sign.getLine(1)), getDouble(sign.getLine(2)), getDouble(sign.getLine(3)));
         player.setVelocity(velocity);
         new BukkitRunnable() {
             @Override

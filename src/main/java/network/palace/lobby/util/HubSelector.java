@@ -20,7 +20,7 @@ import java.util.Set;
 public class HubSelector {
 
     private final Material NAV_MATERIAL = Material.BOOK;
-    private final String NAV_NAME = ChatColor.DARK_AQUA + "Choose a Server";
+    private final String NAV_NAME = ChatColor.BLUE + "Choose a Server";
     private final int NAV_SIZE = 9;
 
     private Inventory inventory;

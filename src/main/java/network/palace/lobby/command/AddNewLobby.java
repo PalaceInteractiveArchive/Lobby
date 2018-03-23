@@ -14,7 +14,7 @@ import org.bukkit.ChatColor;
  * @since 4/11/2017
  */
 @CommandMeta(description = "Add a new lobby")
-@CommandPermission(rank = Rank.WIZARD)
+@CommandPermission(rank = Rank.DEVELOPER)
 public class AddNewLobby extends CoreCommand {
 
     public AddNewLobby() {
