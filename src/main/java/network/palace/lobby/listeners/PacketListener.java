@@ -19,5 +19,6 @@ public class PacketListener implements Listener {
         JsonObject object = (JsonObject) new JsonParser().parse(packet);
         PacketLobbyData lobbyData = new PacketLobbyData().fromJSON(object);
         Lobby.getInstance().getInventoryNav().updateCounts(lobbyData.getParks(), lobbyData.getCreative(), lobbyData.getArcade());
+        Lobby.getInstance().getHubSelector().updateCounts(lobbyData.getHubs());
     }
 }

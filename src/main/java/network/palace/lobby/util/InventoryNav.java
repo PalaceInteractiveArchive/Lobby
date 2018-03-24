@@ -22,9 +22,9 @@ public class InventoryNav {
     public static final String NAV_NAME = ChatColor.BLUE + "Navigation";
     public static final int NAV_SIZE = 27;
     public static final ServerInfo[] SERVERS = {
-            new ServerInfo("Creative", 11, Material.DIAMOND_PICKAXE, "lobby.nav.creative"),
+            new ServerInfo("Creative", 10, Material.DIAMOND_PICKAXE, "lobby.nav.creative"),
             new ServerInfo("Theme Parks", "TTC", 13, Material.STICK, "lobby.nav.parks"),
-            new ServerInfo("Arcade", 15, Material.BOW, "lobby.nav.arcade")
+            new ServerInfo("Arcade", 16, Material.BOW, "lobby.nav.arcade")
     };
     private int parks = 0;
     private int creative = 0;
@@ -67,7 +67,7 @@ public class InventoryNav {
                             for (int i2 = 0; i2 < lore.size(); i2++) {
                                 String s = lore.get(i2);
                                 if (i2 >= (lore.size() - 1)) {
-                                    newLore.add(ChatColor.GRAY + "" + count + " currently online");
+                                    newLore.add(ChatColor.GRAY + "" + count + " players");
                                     continue;
                                 }
                                 String replaced = s.replaceAll((green ? ChatColor.BLACK : ChatColor.GREEN) + "➤",
@@ -77,8 +77,8 @@ public class InventoryNav {
                             meta.setLore(newLore);
                             item.setItemMeta(meta);
                             inv.setItem(i, item);
-                            int windowId = player.getWindowId();
 
+                            int windowId = player.getWindowId();
                             PacketContainer packet = new PacketContainer(PacketType.Play.Server.SET_SLOT);
                             StructureModifier<Integer> mod = packet.getIntegers();
                             mod.write(0, windowId);
@@ -123,7 +123,7 @@ public class InventoryNav {
             descList.add("  ");
             descList.add((green ? ChatColor.GREEN : ChatColor.BLACK) + "➤ " + ChatColor.GREEN + "/join " + info.getLocation());
             if (count >= 0) {
-                descList.add(ChatColor.GRAY + "" + count + " currently online");
+                descList.add(ChatColor.GRAY + "" + count + " players");
             }
             ItemStack item = ItemUtil.create(info.getItem(), ChatColor.GREEN + info.getName(), descList);
             item = ItemUtil.hideAttributes(item);

@@ -9,6 +9,7 @@ import network.palace.core.player.CPlayer;
 import network.palace.core.player.Rank;
 import network.palace.core.plugin.Plugin;
 import network.palace.core.plugin.PluginInfo;
+import network.palace.core.utils.ItemUtil;
 import network.palace.lobby.command.LobbyCommand;
 import network.palace.lobby.listeners.*;
 import network.palace.lobby.resourcepack.PackManager;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
+import java.util.Arrays;
 
 @PluginInfo(name = "Lobby", version = "1.1.2", depend = {"Core"}, canReload = true)
 public class Lobby extends Plugin {
@@ -31,6 +33,8 @@ public class Lobby extends Plugin {
     @Getter private Location spawn;
     @Getter @Setter private boolean packEnabled;
     @Getter @Setter private String packName;
+    @Getter private static ItemStack cosmeticsItem = ItemUtil.create(Material.ENDER_CHEST, ChatColor.GREEN + "Cosmetics",
+            Arrays.asList(ChatColor.GRAY + "Open Cosmetics Menu"));
 
     @Override
     public void onPluginEnable() {
@@ -55,6 +59,7 @@ public class Lobby extends Plugin {
         for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {
             inventoryNav.giveNav(player);
             hubSelector.giveNav(player);
+            player.getInventory().setItem(0, cosmeticsItem);
 
             player.setGamemode(GameMode.ADVENTURE);
             if (getConfig().getBoolean("titleEnabled")) {

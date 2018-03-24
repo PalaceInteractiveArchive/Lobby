@@ -26,6 +26,7 @@ public class PlayerLogin implements Listener {
 
         lobby.getInventoryNav().giveNav(player);
         lobby.getHubSelector().giveNav(player);
+        player.getInventory().setItem(0, Lobby.getCosmeticsItem());
 
         player.setGamemode(GameMode.ADVENTURE);
         if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) {

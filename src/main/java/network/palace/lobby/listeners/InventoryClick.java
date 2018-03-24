@@ -4,6 +4,7 @@ import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
 import network.palace.lobby.Lobby;
 import network.palace.lobby.ServerInfo;
+import network.palace.lobby.util.HubSelector;
 import network.palace.lobby.util.InventoryNav;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -26,9 +27,19 @@ public class InventoryClick implements Listener {
             event.setCancelled(true);
             for (ServerInfo s : InventoryNav.SERVERS) {
                 if (s.getName().equalsIgnoreCase(name)) {
-                    player.sendToServer(s.getLocation());
                     player.sendMessage(ChatColor.GREEN + "Sending you to " + s.getName() + "...");
+                    player.sendToServer(s.getLocation());
+                    player.closeInventory();
                     return;
+                }
+            }
+        } else if (title.equalsIgnoreCase(HubSelector.NAV_NAME)) {
+            event.setCancelled(true);
+            for (String s : Lobby.getInstance().getHubSelector().getHubs().keySet()) {
+                if (s.equalsIgnoreCase(name)) {
+                    player.sendMessage(ChatColor.GREEN + "Sending you to " + name + "...");
+                    player.sendToServer(name);
+                    player.closeInventory();
                 }
             }
         }
@@ -37,7 +48,8 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         CPlayer player = Core.getPlayerManager().getPlayer(event.getPlayer().getUniqueId());
-        if(player==null)return;
+        if (player == null) return;
         Lobby.getInstance().getInventoryNav().closeInventory(player.getUniqueId());
+        Lobby.getInstance().getHubSelector().closeInventory(player.getUniqueId());
     }
 }
