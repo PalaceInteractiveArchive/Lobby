@@ -3,8 +3,6 @@ package network.palace.lobby;
 import lombok.Getter;
 import lombok.Setter;
 import network.palace.core.Core;
-import network.palace.core.command.CommandException;
-import network.palace.core.command.CoreCommand;
 import network.palace.core.player.CPlayer;
 import network.palace.core.player.Rank;
 import network.palace.core.plugin.Plugin;
@@ -16,10 +14,7 @@ import network.palace.lobby.resourcepack.PackManager;
 import network.palace.lobby.util.HubSelector;
 import network.palace.lobby.util.InventoryNav;
 import org.bukkit.*;
-import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.Arrays;
@@ -111,7 +106,7 @@ public class Lobby extends Plugin {
 
     private void registerCommands() {
         registerCommand(new LobbyCommand());
-        registerCommand(new CoreCommand("test") {
+        /*registerCommand(new CoreCommand("test") {
             @Override
             protected void handleCommandUnspecific(CommandSender sender, String[] args) throws CommandException {
                 CPlayer player = Core.getPlayerManager().getPlayer("Legobuilder0813");
@@ -133,7 +128,7 @@ public class Lobby extends Plugin {
 //                Bukkit.broadcastMessage(ChatColor.RED + "" + packet.getIntegers().read(0));
 //                Bukkit.broadcastMessage(packet.toString());
 //            }
-//        });
+//        });*/
     }
 
     private void registerListeners() {
