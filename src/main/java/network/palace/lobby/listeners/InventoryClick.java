@@ -22,7 +22,12 @@ public class InventoryClick implements Listener {
         Inventory inv = event.getClickedInventory();
         if (!inv.getTitle().startsWith(ChatColor.BLUE.toString())) return;
         String title = inv.getTitle();
-        String name = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
+        String name;
+        try {
+            name = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
+        } catch (Exception e) {
+            name = "";
+        }
         if (title.equalsIgnoreCase(InventoryNav.NAV_NAME)) {
             event.setCancelled(true);
             for (ServerInfo s : InventoryNav.SERVERS) {

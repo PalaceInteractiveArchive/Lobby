@@ -28,7 +28,7 @@ public class PlayerInteract implements Listener {
         } else {
             PlayerInventory inv = player.getInventory();
             if (inv.getHeldItemSlot() == 2 && inv.getItem(2).getType() != null) {
-                new ToyUseEvent(player).call();
+                new ToyUseEvent(player, false).call();
             }
         }
     }
