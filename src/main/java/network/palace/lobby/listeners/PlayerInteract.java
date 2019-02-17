@@ -3,11 +3,13 @@ package network.palace.lobby.listeners;
 import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
 import network.palace.cosmetics.Cosmetics;
+import network.palace.cosmetics.events.ToyUseEvent;
 import network.palace.lobby.Lobby;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.PlayerInventory;
 
 public class PlayerInteract implements Listener {
 
@@ -23,6 +25,11 @@ public class PlayerInteract implements Listener {
         } else if (e.getMaterial().equals(Material.ENDER_CHEST)) {
             e.setCancelled(true);
             player.openInventory(Cosmetics.getInventoryUtil().getMainInventory(player));
+        } else {
+            PlayerInventory inv = player.getInventory();
+            if (inv.getHeldItemSlot() == 2 && inv.getItem(2).getType() != null) {
+                new ToyUseEvent(player).call();
+            }
         }
     }
 }
