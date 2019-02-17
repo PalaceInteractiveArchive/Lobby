@@ -22,7 +22,7 @@ public class PlayerInteract implements Listener {
             Lobby.getInstance().getHubSelector().openInventory(player);
         } else if (e.getMaterial().equals(Material.ENDER_CHEST)) {
             e.setCancelled(true);
-            Cosmetics.getInstance().getCosmeticsInventory().open(player);
+            player.openInventory(Cosmetics.getInventoryUtil().getMainInventory(player));
         }
     }
 }
