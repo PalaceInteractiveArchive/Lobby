@@ -132,6 +132,7 @@ public class Lobby extends Plugin {
     }
 
     private void registerListeners() {
+        registerListener(new CosmeticListener());
         registerListener(new InventoryClick());
         registerListener(new LaunchPad());
         registerListener(new PacketListener());
