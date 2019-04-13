@@ -13,10 +13,10 @@ public class PackManager implements Listener {
 
     @EventHandler
     public void onCurrentPackReceived(CurrentPackReceivedEvent event) {
-        if (!Lobby.getPlugin(Lobby.class).getConfig().getBoolean("packEnabled")) return;
+        if (!Lobby.getInstance().isPackEnabled()) return;
         String current = event.getPack();
-        if (!current.equals("Palace")) {
-            Core.getResourceManager().sendPack(event.getPlayer(), Core.getResourceManager().getPack("Palace"));
+        if (!current.equals(Lobby.getInstance().getPackName())) {
+            Core.getResourceManager().sendPack(event.getPlayer(), Core.getResourceManager().getPack(Lobby.getInstance().getPackName()));
         }
     }
 

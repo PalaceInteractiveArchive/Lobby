@@ -14,7 +14,7 @@ import org.bukkit.ChatColor;
  * @since 4/11/2017
  */
 @CommandMeta(description = "Toggle the lobby selection")
-@CommandPermission(rank = Rank.WIZARD)
+@CommandPermission(rank = Rank.DEVELOPER)
 public class ToggleSelectLobbies extends CoreCommand {
 
     public ToggleSelectLobbies() {
