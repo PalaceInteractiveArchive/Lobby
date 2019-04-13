@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.util.Arrays;
 
-@PluginInfo(name = "Lobby", version = "1.1.2", depend = {"Core"}, canReload = true)
+@PluginInfo(name = "Lobby", version = "1.1.3", depend = {"Core"}, canReload = true)
 public class Lobby extends Plugin {
     @Getter private static Lobby instance;
     @Getter private InventoryNav inventoryNav;
