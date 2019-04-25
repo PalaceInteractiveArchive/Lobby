@@ -17,9 +17,9 @@ import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 
-@PluginInfo(name = "Lobby", version = "1.1.3", depend = {"Core"}, canReload = true)
+@PluginInfo(name = "Lobby", version = "1.1.4", depend = {"Core"}, canReload = true, apiversion = "1.13")
 public class Lobby extends Plugin {
     @Getter private static Lobby instance;
     @Getter private InventoryNav inventoryNav;
@@ -29,7 +29,7 @@ public class Lobby extends Plugin {
     @Getter @Setter private boolean packEnabled;
     @Getter @Setter private String packName;
     @Getter private static ItemStack cosmeticsItem = ItemUtil.create(Material.ENDER_CHEST, ChatColor.GREEN + "Cosmetics",
-            Arrays.asList(ChatColor.GRAY + "Open Cosmetics Menu"));
+            Collections.singletonList(ChatColor.GRAY + "Open Cosmetics Menu"));
 
     @Override
     public void onPluginEnable() {
@@ -106,33 +106,10 @@ public class Lobby extends Plugin {
 
     private void registerCommands() {
         registerCommand(new LobbyCommand());
-        /*registerCommand(new CoreCommand("test") {
-            @Override
-            protected void handleCommandUnspecific(CommandSender sender, String[] args) throws CommandException {
-                CPlayer player = Core.getPlayerManager().getPlayer("Legobuilder0813");
-                Inventory inv = player.getOpenInventory().get().getTopInventory();
-                inv.setItem(0, new ItemStack(Material.STONE));
-                Core.runTaskLater(() -> {
-                    ItemStack i = new ItemStack(Material.STONE);
-                    ItemMeta meta = i.getItemMeta();
-                    meta.setDisplayName("HELLO");
-                    i.setItemMeta(meta);
-                    inv.setItem(0, i);
-                }, 30L);
-            }
-        });
-//        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, PacketType.Play.Server.WINDOW_ITEMS) {
-//            @Override
-//            public void onPacketSending(PacketEvent event) {
-//                PacketContainer packet = event.getPacket();
-//                Bukkit.broadcastMessage(ChatColor.RED + "" + packet.getIntegers().read(0));
-//                Bukkit.broadcastMessage(packet.toString());
-//            }
-//        });*/
     }
 
     private void registerListeners() {
-        registerListener(new CosmeticListener());
+//        registerListener(new CosmeticListener());
         registerListener(new InventoryClick());
         registerListener(new LaunchPad());
         registerListener(new PacketListener());

@@ -68,11 +68,11 @@ public class LaunchPad implements Listener {
     }
 
     private boolean isSign(Block block) {
-        return block.getType() == Material.WALL_SIGN || block.getType() == Material.SIGN_POST;
+        return block.getType() == Material.WALL_SIGN || block.getType() == Material.SIGN;
     }
 
     private boolean isPlate(Material material) {
-        return material == Material.WOOD_PLATE || material == Material.STONE_PLATE || material == Material.IRON_PLATE || material == Material.GOLD_PLATE;
+        return material.name().endsWith("PLATE");
     }
 
     private double getDouble(String text) {
