@@ -12,8 +12,6 @@ public class PlayerMove implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent e) {
         CPlayer player = Core.getPlayerManager().getPlayer(e.getPlayer());
-        if (player.getLocation().getY() <= 0) {
-            player.teleport(Lobby.getInstance().getSpawn());
-        }
+        if (player != null && player.getLocation().getY() <= 0) player.teleport(Lobby.getConfigUtil().getSpawn());
     }
 }

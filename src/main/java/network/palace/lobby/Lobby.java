@@ -1,106 +1,51 @@
 package network.palace.lobby;
 
 import lombok.Getter;
-import lombok.Setter;
 import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
 import network.palace.core.player.Rank;
 import network.palace.core.plugin.Plugin;
 import network.palace.core.plugin.PluginInfo;
-import network.palace.core.utils.ItemUtil;
 import network.palace.lobby.command.LobbyCommand;
 import network.palace.lobby.listeners.*;
 import network.palace.lobby.resourcepack.PackManager;
+import network.palace.lobby.util.ConfigUtil;
 import network.palace.lobby.util.HubSelector;
 import network.palace.lobby.util.InventoryNav;
-import org.bukkit.*;
-import org.bukkit.inventory.ItemStack;
+import network.palace.lobby.util.InventoryUtil;
+import org.bukkit.GameMode;
 
-import java.io.File;
-import java.util.Collections;
-
-@PluginInfo(name = "Lobby", version = "1.1.4", depend = {"Core"}, canReload = true, apiversion = "1.13")
+@PluginInfo(name = "Lobby", version = "1.1.5", depend = {"Core"}, canReload = true, apiversion = "1.13")
 public class Lobby extends Plugin {
     @Getter private static Lobby instance;
-    @Getter private InventoryNav inventoryNav;
-    @Getter private HubSelector hubSelector;
-    @Getter @Setter private boolean isHubSelectorEnabled = false;
-    @Getter private Location spawn;
-    @Getter @Setter private boolean packEnabled;
-    @Getter @Setter private String packName;
-    @Getter private static ItemStack cosmeticsItem = ItemUtil.create(Material.ENDER_CHEST, ChatColor.GREEN + "Cosmetics",
-            Collections.singletonList(ChatColor.GRAY + "Open Cosmetics Menu"));
+    @Getter private static InventoryNav inventoryNav;
+    @Getter private static HubSelector hubSelector;
+    @Getter private static ConfigUtil configUtil;
+    @Getter private static InventoryUtil inventoryUtil;
 
     @Override
     public void onPluginEnable() {
         instance = this;
-        checkConfig();
         registerListeners();
         registerCommands();
+        configUtil = new ConfigUtil();
+        inventoryUtil = new InventoryUtil();
         inventoryNav = new InventoryNav();
         hubSelector = new HubSelector();
 
-        isHubSelectorEnabled = getConfig().getBoolean("canSelectLobbies");
-
-        spawn = new Location(Bukkit.getWorld(getConfig().getString("spawn.world")),
-                getConfig().getInt("spawn.x"), getConfig().getInt("spawn.y"), getConfig().getInt("spawn.z"),
-                getConfig().getInt("spawn.yaw"), getConfig().getInt("spawn.pitch"));
-
-        packEnabled = getConfig().getBoolean("pack.send");
-        packName = getConfig().getString("pack.name");
-
-        resetPlayerHeaders();
-
         for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {
-            inventoryNav.giveNav(player);
-            hubSelector.giveNav(player);
-            player.getInventory().setItem(0, cosmeticsItem);
-
+            player.resetPlayer();
             player.setGamemode(GameMode.ADVENTURE);
-            if (getConfig().getBoolean("titleEnabled")) {
-                player.getActionBar().show(ChatColor.LIGHT_PURPLE + "Use your Nether Star to navigate!");
-            }
-            if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) {
-                player.setAllowFlight(true);
-            }
-            if (Lobby.getPlugin(Lobby.class).getConfig().getBoolean("flightForDonorsEnabled") && player.getRank().getRankId() >= Rank.DWELLER.getRankId()) {
-                player.setAllowFlight(true);
-            }
+            inventoryUtil.handleJoin(player);
+
+            if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) player.setAllowFlight(true);
         }
-    }
-
-    public void resetPlayerHeaders() {
-        Core.getPlayerManager().getOnlinePlayers().forEach(this::setPlayerHeader);
-    }
-
-    public void setPlayerHeader(CPlayer player) {
-        String name = getConfig().getString("serverName");
-        player.getHeaderFooter().setHeader(ChatColor.GOLD + "Palace Network - A Family of Servers");
-        player.getHeaderFooter().setFooter(ChatColor.LIGHT_PURPLE + "You're at the " + ChatColor.GOLD + name);
     }
 
     @Override
     public void onPluginDisable() {
         for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {
-            player.getInventory().clear(4);
             player.closeInventory();
-        }
-    }
-
-    private void checkConfig() {
-        try {
-            if (!getDataFolder().exists()) {
-                getDataFolder().mkdirs();
-            }
-            File file = new File(getDataFolder(), "config.yml");
-            if (!file.exists()) {
-                getLogger().info("Config.yml not found, creating!");
-                saveDefaultConfig();
-            } else {
-                getLogger().info("Config.yml found, loading!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -111,7 +56,6 @@ public class Lobby extends Plugin {
     private void registerListeners() {
 //        registerListener(new CosmeticListener());
         registerListener(new InventoryClick());
-        registerListener(new LaunchPad());
         registerListener(new PacketListener());
         registerListener(new PlayerDropItem());
         registerListener(new PlayerFood());

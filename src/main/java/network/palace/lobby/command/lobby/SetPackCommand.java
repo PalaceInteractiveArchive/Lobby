@@ -21,24 +21,15 @@ public class SetPackCommand extends CoreCommand {
             return;
         }
         switch (args[0].toLowerCase()) {
-            case "enabled": {
-                Boolean val = Boolean.valueOf(args[1]);
-                Lobby.getInstance().setPackEnabled(val);
-                Lobby.getInstance().getConfig().set("pack.send", val);
-                Lobby.getInstance().saveConfig();
-                if (val) {
-                    sender.sendMessage(ChatColor.GREEN + "Players will now be sent a resource pack on join!");
-                } else {
-                    sender.sendMessage(ChatColor.RED + "Players will no longer be sent a resource pack on join!");
-                }
-                return;
-            }
             case "name": {
                 String name = args[1];
-                Lobby.getInstance().setPackName(name);
-                Lobby.getInstance().getConfig().set("pack.name", name);
-                Lobby.getInstance().saveConfig();
+                Lobby.getConfigUtil().setServerPack(name);
                 sender.sendMessage(ChatColor.GREEN + "Resource pack name set to " + ChatColor.AQUA + name);
+                return;
+            }
+            case "disable": {
+                Lobby.getConfigUtil().setServerPack(null);
+                sender.sendMessage(ChatColor.RED + "Players will no longer be sent a resource pack on join!");
                 return;
             }
         }
@@ -47,7 +38,7 @@ public class SetPackCommand extends CoreCommand {
 
     private void helpMenu(CommandSender sender) {
         sender.sendMessage(ChatColor.GREEN + "Pack Commands:");
-        sender.sendMessage(ChatColor.GREEN + "/lobby setpack enabled [true/false] " + ChatColor.AQUA + "- Set whether the player should be sent a pack on join");
         sender.sendMessage(ChatColor.GREEN + "/lobby setpack name [name] " + ChatColor.AQUA + "- Set the name of the pack players are sent");
+        sender.sendMessage(ChatColor.GREEN + "/lobby setpack disable " + ChatColor.AQUA + "- Disable the server pack");
     }
 }
