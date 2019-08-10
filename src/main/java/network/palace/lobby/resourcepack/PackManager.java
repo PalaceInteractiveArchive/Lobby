@@ -14,7 +14,7 @@ public class PackManager implements Listener {
 
     @EventHandler
     public void onCurrentPackReceived(CurrentPackReceivedEvent event) {
-        if (Lobby.getConfigUtil().getServerPack() != null)
+        if (Lobby.getConfigUtil().getServerPack() != null && !event.getPack().equals(Lobby.getConfigUtil().getServerPack()))
             Core.getResourceManager().sendPack(event.getPlayer(), Lobby.getConfigUtil().getServerPack());
     }
 
