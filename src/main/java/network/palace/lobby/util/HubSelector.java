@@ -86,7 +86,7 @@ public class HubSelector {
                 List<String> lore = Arrays.asList(" ",
                         (green ? ChatColor.GREEN : ChatColor.BLACK) + "➤ " + ChatColor.GREEN + "Switch to " + entry.getKey(),
                         ChatColor.GRAY + "" + entry.getValue() + " players");
-                ItemStack hub = ItemUtil.create(Material.CHISELED_QUARTZ_BLOCK, ChatColor.GREEN + entry.getKey(), lore);
+                ItemStack hub = ItemUtil.create(Material.QUARTZ_BLOCK, 1, (byte) 1, ChatColor.GREEN + entry.getKey(), lore);
                 menu.setButton(new MenuButton(pos, hub, ImmutableMap.of(ClickType.LEFT, p -> {
                     p.sendMessage(ChatColor.GREEN + "Sending you to " + entry.getKey() + "...");
                     p.sendToServer(entry.getKey());

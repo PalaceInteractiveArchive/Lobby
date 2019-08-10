@@ -24,7 +24,7 @@ public class PlayerInteract implements Listener {
                 break;
             case ENDER_CHEST:
                 try {
-                    Cosmetics.getInventoryUtil().getMainInventory(player).open();
+                    player.openInventory(Cosmetics.getInventoryUtil().getMainInventory(player));
                 } catch (NoClassDefFoundError e) {
                     player.sendMessage(ChatColor.RED + "There's an error loading Cosmetics right now, sorry!");
                 }
