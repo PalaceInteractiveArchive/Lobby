@@ -12,12 +12,12 @@ import org.bukkit.event.entity.EntityExplodeEvent;
  */
 public class TntExplosion implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onTntExplosionEvent(BlockExplodeEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityExplosionEvent(EntityExplodeEvent e) {
         e.blockList().clear();
     }

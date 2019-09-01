@@ -1,26 +1,22 @@
 package network.palace.lobby.util;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.reflect.StructureModifier;
+import com.google.common.collect.ImmutableMap;
 import network.palace.core.Core;
+import network.palace.core.menu.Menu;
+import network.palace.core.menu.MenuButton;
 import network.palace.core.player.CPlayer;
 import network.palace.core.utils.ItemUtil;
+import network.palace.lobby.Lobby;
 import network.palace.lobby.ServerInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
 public class InventoryNav {
-    public static final Material NAV_MATERIAL = Material.NETHER_STAR;
-    public static final String NAV_NAME = ChatColor.BLUE + "Navigation";
-    public static final int NAV_SIZE = 27;
     public static final ServerInfo[] SERVERS = {
             new ServerInfo("Creative", 10, Material.DIAMOND_PICKAXE, "lobby.nav.creative"),
             new ServerInfo("Theme Parks", "TTC", 13, Material.STICK, "lobby.nav.parks"),
@@ -29,20 +25,23 @@ public class InventoryNav {
     private int parks = 0;
     private int creative = 0;
     private int arcade = 0;
-    private HashMap<UUID, Inventory> openInventories = new HashMap<>();
+    private HashMap<UUID, Menu> openInventories = new HashMap<>();
     private boolean green = true;
 
     public InventoryNav() {
-        Core.runTaskTimer(() -> {
+        Core.runTaskTimer(Lobby.getInstance(), () -> {
             try {
                 green = !green;
-                for (Map.Entry<UUID, Inventory> entry : openInventories.entrySet()) {
+                for (Map.Entry<UUID, Menu> entry : openInventories.entrySet()) {
                     UUID uuid = entry.getKey();
                     CPlayer player = Core.getPlayerManager().getPlayer(uuid);
                     if (player != null && player.getOpenInventory().isPresent()) {
-                        Inventory inv = entry.getValue();
-                        for (int i = 0; i < inv.getSize(); i++) {
-                            ItemStack item = inv.getItem(i);
+                        Menu menu = entry.getValue();
+                        for (int i = 0; i < menu.getSize(); i++) {
+                            Optional<MenuButton> opt = menu.getButton(i);
+                            if (!opt.isPresent()) continue;
+                            MenuButton button = opt.get();
+                            ItemStack item = button.getItemStack();
                             if (item == null) continue;
                             ItemMeta meta = item.getItemMeta();
                             if (meta == null) continue;
@@ -76,15 +75,8 @@ public class InventoryNav {
                             }
                             meta.setLore(newLore);
                             item.setItemMeta(meta);
-                            inv.setItem(i, item);
-
-                            int windowId = player.getWindowId();
-                            PacketContainer packet = new PacketContainer(PacketType.Play.Server.SET_SLOT);
-                            StructureModifier<Integer> mod = packet.getIntegers();
-                            mod.write(0, windowId);
-                            mod.write(1, i);
-                            packet.getItemModifier().write(0, item);
-                            ProtocolLibrary.getProtocolManager().sendServerPacket(player.getBukkitPlayer(), packet);
+                            menu.setButton(new MenuButton(i, item, button.getActions()));
+                            InventoryUtil.sendInventoryUpdate(player, player.getWindowId(), i, item);
                         }
                     }
                 }
@@ -94,13 +86,8 @@ public class InventoryNav {
         }, 0L, 10L);
     }
 
-    public void giveNav(CPlayer player) {
-        ItemStack itemNav = ItemUtil.create(NAV_MATERIAL, NAV_NAME);
-        player.getInventory().setItem(4, ItemUtil.makeUnableToMove(itemNav));
-    }
-
     public void openInventory(CPlayer player) {
-        Inventory inv = Bukkit.createInventory(player.getBukkitPlayer(), NAV_SIZE, NAV_NAME);
+        Menu menu = new Menu(27, ChatColor.BLUE + "Navigation", player, new ArrayList<>());
         for (ServerInfo info : SERVERS) {
             int count = -1;
             switch (info.getName().toLowerCase()) {
@@ -122,15 +109,17 @@ public class InventoryNav {
             descList.add(0, " ");
             descList.add("  ");
             descList.add((green ? ChatColor.GREEN : ChatColor.BLACK) + "➤ " + ChatColor.GREEN + "/join " + info.getLocation());
-            if (count >= 0) {
-                descList.add(ChatColor.GRAY + "" + count + " players");
-            }
+            if (count >= 0) descList.add(ChatColor.GRAY + "" + count + " players");
+
             ItemStack item = ItemUtil.create(info.getItem(), ChatColor.GREEN + info.getName(), descList);
             item = ItemUtil.hideAttributes(item);
-            inv.setItem(info.getPosition(), item);
+            menu.setButton(new MenuButton(info.getPosition(), item, ImmutableMap.of(ClickType.LEFT, p -> {
+                player.sendMessage(ChatColor.GREEN + "Sending you to " + info.getName() + "...");
+                player.sendToServer(info.getLocation());
+            })));
         }
-        player.openInventory(inv);
-        openInventories.put(player.getUniqueId(), inv);
+        menu.open();
+        openInventories.put(player.getUniqueId(), menu);
     }
 
     private List<String> size(String message, ChatColor color) {
