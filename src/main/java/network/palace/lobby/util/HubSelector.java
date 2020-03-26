@@ -7,6 +7,7 @@ import network.palace.core.menu.Menu;
 import network.palace.core.menu.MenuButton;
 import network.palace.core.player.CPlayer;
 import network.palace.core.utils.ItemUtil;
+import network.palace.core.utils.TextUtil;
 import network.palace.lobby.Lobby;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -51,7 +52,7 @@ public class HubSelector {
                             for (int i2 = 0; i2 < lore.size(); i2++) {
                                 String s = lore.get(i2);
                                 if (i2 >= (lore.size() - 1)) {
-                                    newLore.add(ChatColor.GRAY + "" + count + " players");
+                                    newLore.add(ChatColor.GRAY + "" + count + " player" + TextUtil.pluralize(count));
                                     continue;
                                 }
                                 String replaced = s.replaceAll((green ? ChatColor.BLACK : ChatColor.GREEN) + "➤",
@@ -85,7 +86,7 @@ public class HubSelector {
             try {
                 List<String> lore = Arrays.asList(" ",
                         (green ? ChatColor.GREEN : ChatColor.BLACK) + "➤ " + ChatColor.GREEN + "Switch to " + entry.getKey(),
-                        ChatColor.GRAY + "" + entry.getValue() + " players");
+                        ChatColor.GRAY + "" + entry.getValue() + " player" + TextUtil.pluralize(entry.getValue()));
                 ItemStack hub = ItemUtil.create(Material.QUARTZ_BLOCK, 1, (byte) 1, ChatColor.GREEN + entry.getKey(), lore);
                 menu.setButton(new MenuButton(pos, hub, ImmutableMap.of(ClickType.LEFT, p -> {
                     p.sendMessage(ChatColor.GREEN + "Sending you to " + entry.getKey() + "...");
