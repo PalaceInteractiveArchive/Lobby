@@ -6,6 +6,7 @@ import network.palace.core.menu.Menu;
 import network.palace.core.menu.MenuButton;
 import network.palace.core.player.CPlayer;
 import network.palace.core.utils.ItemUtil;
+import network.palace.core.utils.TextUtil;
 import network.palace.lobby.Lobby;
 import network.palace.lobby.ServerInfo;
 import org.bukkit.ChatColor;
@@ -66,7 +67,7 @@ public class InventoryNav {
                             for (int i2 = 0; i2 < lore.size(); i2++) {
                                 String s = lore.get(i2);
                                 if (i2 >= (lore.size() - 1)) {
-                                    newLore.add(ChatColor.GRAY + "" + count + " players");
+                                    newLore.add(ChatColor.GRAY + "" + count + " player" + TextUtil.pluralize(count));
                                     continue;
                                 }
                                 String replaced = s.replaceAll((green ? ChatColor.BLACK : ChatColor.GREEN) + "➤",
@@ -109,7 +110,7 @@ public class InventoryNav {
             descList.add(0, " ");
             descList.add("  ");
             descList.add((green ? ChatColor.GREEN : ChatColor.BLACK) + "➤ " + ChatColor.GREEN + "/join " + info.getLocation());
-            if (count >= 0) descList.add(ChatColor.GRAY + "" + count + " players");
+            if (count >= 0) descList.add(ChatColor.GRAY + "" + count + " player" + TextUtil.pluralize(count));
 
             ItemStack item = ItemUtil.create(info.getItem(), ChatColor.GREEN + info.getName(), descList);
             item = ItemUtil.hideAttributes(item);
