@@ -20,7 +20,7 @@ import java.util.*;
 public class InventoryNav {
     public static final ServerInfo[] SERVERS = {
             new ServerInfo("Creative", 10, Material.DIAMOND_PICKAXE, "lobby.nav.creative"),
-            new ServerInfo("Theme Parks", "TTC", 13, Material.STICK, "lobby.nav.parks"),
+            new ServerInfo("Theme Parks", "WDW", 13, Material.STICK, "lobby.nav.parks"),
             new ServerInfo("Arcade", 16, Material.BOW, "lobby.nav.arcade")
     };
     private int parks = 0;
