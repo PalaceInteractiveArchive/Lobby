@@ -116,7 +116,7 @@ public class InventoryNav {
             item = ItemUtil.hideAttributes(item);
             menu.setButton(new MenuButton(info.getPosition(), item, ImmutableMap.of(ClickType.LEFT, p -> {
                 player.sendMessage(ChatColor.GREEN + "Sending you to " + info.getName() + "...");
-                player.performCommand("warp wdw");
+                player.sendToServer(info.getLocation());
             })));
         }
         menu.open();
