@@ -15,7 +15,7 @@ import network.palace.lobby.util.InventoryNav;
 import network.palace.lobby.util.InventoryUtil;
 import org.bukkit.GameMode;
 
-@PluginInfo(name = "Lobby", version = "1.1.6", depend = {"Core"}, canReload = true, apiversion = "1.13")
+@PluginInfo(name = "Lobby", version = "1.1.7", depend = {"Core"}, canReload = true, apiversion = "1.13")
 public class Lobby extends Plugin {
     @Getter private static Lobby instance;
     @Getter private static InventoryNav inventoryNav;
