@@ -23,9 +23,7 @@ public class InventoryNav {
             new ServerInfo("Theme Parks", "WDW", 13, Material.STICK, "lobby.nav.parks"),
             new ServerInfo("Arcade", 16, Material.BOW, "lobby.nav.arcade")
     };
-    private int parks = 0;
-    private int creative = 0;
-    private int arcade = 0;
+    private int parks = 0, creative = 0, arcade = 0;
     private HashMap<UUID, Menu> openInventories = new HashMap<>();
     private boolean green = true;
 
@@ -116,7 +114,11 @@ public class InventoryNav {
             item = ItemUtil.hideAttributes(item);
             menu.setButton(new MenuButton(info.getPosition(), item, ImmutableMap.of(ClickType.LEFT, p -> {
                 player.sendMessage(ChatColor.GREEN + "Sending you to " + info.getName() + "...");
-                player.sendToServer(info.getLocation());
+                if (info.getLocation().equals("WDW")) {
+                    player.performCommand("warp wdw");
+                } else {
+                    player.sendToServer(info.getLocation());
+                }
             })));
         }
         menu.open();
