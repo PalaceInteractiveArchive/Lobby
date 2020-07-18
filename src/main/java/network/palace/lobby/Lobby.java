@@ -3,7 +3,6 @@ package network.palace.lobby;
 import lombok.Getter;
 import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
-import network.palace.core.player.Rank;
 import network.palace.core.plugin.Plugin;
 import network.palace.core.plugin.PluginInfo;
 import network.palace.lobby.command.LobbyCommand;
@@ -13,7 +12,6 @@ import network.palace.lobby.util.ConfigUtil;
 import network.palace.lobby.util.HubSelector;
 import network.palace.lobby.util.InventoryNav;
 import network.palace.lobby.util.InventoryUtil;
-import org.bukkit.GameMode;
 
 @PluginInfo(name = "Lobby", version = "1.1.7", depend = {"Core"}, canReload = true, apiversion = "1.13")
 public class Lobby extends Plugin {
@@ -34,11 +32,7 @@ public class Lobby extends Plugin {
         hubSelector = new HubSelector();
 
         for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {
-            player.resetPlayer();
-            player.setGamemode(GameMode.ADVENTURE);
-            inventoryUtil.handleJoin(player);
-
-            if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) player.setAllowFlight(true);
+            PlayerLogin.handleJoin(player);
         }
     }
 

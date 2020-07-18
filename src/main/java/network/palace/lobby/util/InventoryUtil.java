@@ -36,10 +36,10 @@ public class InventoryUtil {
             });
         }, 0L, 10L);
 
-        cosmetics = ItemUtil.makeUnableToMove(ItemUtil.create(Material.ENDER_CHEST, ChatColor.GREEN + "Cosmetics",
-                Collections.singletonList(ChatColor.GRAY + "Open Cosmetics Menu")));
-        nav = ItemUtil.makeUnableToMove(ItemUtil.create(Material.NETHER_STAR, ChatColor.BLUE + "Navigation"));
-        hub = ItemUtil.makeUnableToMove(ItemUtil.create(Material.BOOK, ChatColor.BLUE + "Hub Selector"));
+        cosmetics = ItemUtil.create(Material.ENDER_CHEST, ChatColor.GREEN + "Cosmetics",
+                Collections.singletonList(ChatColor.GRAY + "Open Cosmetics Menu"));
+        nav = ItemUtil.create(Material.NETHER_STAR, ChatColor.BLUE + "Navigation");
+        hub = ItemUtil.create(Material.BOOK, ChatColor.BLUE + "Hub Selector");
     }
 
     /**
