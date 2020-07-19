@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import java.util.Collections;
 @Getter
 public class ConfigUtil {
     private String serverPack = "WDW";
-    private Location spawn;
+    private Location spawn, tutorialSpawn;
 
     public ConfigUtil() {
         try {
@@ -48,6 +49,7 @@ public class ConfigUtil {
                 }
 
                 spawn = MiscUtil.getLocation(configObject.getAsJsonObject("spawn"));
+                tutorialSpawn = MiscUtil.getLocation(configObject.getAsJsonObject("tutorial-spawn"));
             }
 
             Core.logMessage("Lobby", "Loaded the Lobby config!");
@@ -67,12 +69,18 @@ public class ConfigUtil {
         saveToFile();
     }
 
+    public void setTutorialSpawn(Location loc) {
+        tutorialSpawn = loc.clone();
+        saveToFile();
+    }
+
     public void saveToFile() {
         JsonObject configObject = new JsonObject();
         if (serverPack != null) configObject.addProperty("resource-pack", serverPack);
         if (spawn != null) configObject.add("spawn", MiscUtil.getJson(spawn));
+        if (tutorialSpawn != null) configObject.add("tutorial-spawn", MiscUtil.getJson(tutorialSpawn));
         try {
-            Files.write(Paths.get(new File("plugins/Lobby/config.json").toURI()), Collections.singletonList(configObject.toString()), Charset.forName("UTF-8"));
+            Files.write(Paths.get(new File("plugins/Lobby/config.json").toURI()), Collections.singletonList(configObject.toString()), StandardCharsets.UTF_8);
         } catch (IOException e) {
             Core.logMessage("FoodManager", "There was an error writing to the FoodManager config!");
             e.printStackTrace();
