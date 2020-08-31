@@ -19,6 +19,7 @@ public class Lobby extends Plugin {
     @Getter private static HubSelector hubSelector;
     @Getter private static ConfigUtil configUtil;
     @Getter private static InventoryUtil inventoryUtil;
+    @Getter private static WorldUtil worldUtil;
     @Getter private static TutorialManager tutorialManager;
 
     @Override
@@ -26,10 +27,11 @@ public class Lobby extends Plugin {
         instance = this;
         registerListeners();
         registerCommands();
-        configUtil = new ConfigUtil();
-        inventoryUtil = new InventoryUtil();
         inventoryNav = new InventoryNav();
         hubSelector = new HubSelector();
+        configUtil = new ConfigUtil();
+        inventoryUtil = new InventoryUtil();
+        worldUtil = new WorldUtil();
         tutorialManager = new TutorialManager();
 
         for (CPlayer player : Core.getPlayerManager().getOnlinePlayers()) {

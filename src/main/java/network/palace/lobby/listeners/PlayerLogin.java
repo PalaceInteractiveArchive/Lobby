@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PlayerLogin implements Listener {
     private static final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 200000, 0, true);
-    private static List<String> needTutorial = Arrays.asList("Legobuilder0813", "a");
+    private static List<String> needTutorial = Arrays.asList("Legobuilder0813f", "a");
 
     @EventHandler
     public void onLogin(CorePlayerJoinedEvent event) {
