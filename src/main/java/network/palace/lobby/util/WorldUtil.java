@@ -13,9 +13,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class WorldUtil {
-    private boolean streetLights = false,
-            shootingStars = false;
+    private boolean streetLights = false, shootingStars = false;
     private final List<Location> streetLightLocations = new ArrayList<>();
+    private final List<Location> launchPadLocations = new ArrayList<>();
+    private final Location portal;
 
     public WorldUtil() {
         World w = Bukkit.getWorlds().get(0);
@@ -32,6 +33,87 @@ public class WorldUtil {
                 new Location(w, -75, 75, -52),
                 new Location(w, -89, 75, -40)
         ));
+        launchPadLocations.addAll(Arrays.asList(
+                new Location(w, -25, 62, -51),
+                new Location(w, 8, 60, -21),
+                new Location(w, 30, 60, -78),
+                new Location(w, -4, 63, 9),
+                new Location(w, 11, 62, 21),
+                new Location(w, 36, 60, 60)
+        ));
+        portal = new Location(w, -34.5, 54.6, -109.5);
+
+//        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, ChatColor.GREEN + "Elred");
+//
+//        Equipment eq = npc.getTrait(Equipment.class);
+//        eq.set(Equipment.EquipmentSlot.BOOTS, new ItemStack(Material.LEATHER_BOOTS));
+//        eq.set(Equipment.EquipmentSlot.HELMET, new ItemStack(Material.LEATHER_HELMET));
+//
+//        Waypoints.registerWaypointProvider(PathProvider.class, "lobbyPaths");
+//
+//        npc.addTrait(new TutorialNPC(Core.getPlayerManager().getOnlinePlayers().get(0).getUniqueId()));
+//
+//        npc.hasTrait(TutorialNPC.class);
+//
+//        npc.spawn(portal);
+
+        Core.runTaskTimer(Lobby.getInstance(), new Runnable() {
+            int step = 0;
+            int step2 = 10;
+
+            @Override
+            public void run() {
+                double strands = 4, curveRatio = 5, radius = 1.3;
+                int particles = 30;
+
+//                for (int i = 1; i <= strands; i++) {
+//                    for (int j = 1; j <= particles; j++) {
+//                        float ratio = (float) j / (particles * 2);
+//                        double angle = curveRatio * ratio * 2 * Math.PI / strands + (2 * Math.PI * i / strands) + (Math.PI / 4) - (step / 40.0);
+//
+//                        double x = Math.cos(angle) * ratio * radius;
+//                        double z = Math.sin(angle) * ratio * radius;
+//                        portal.getWorld().spawnParticle(Particle.PORTAL, x + portal.getX(), portal.getY(), z + portal.getZ(), 1, 0.01, 0, 0.01, 0);
+//                    }
+//                }
+
+                for (int i = 1; i <= strands; i++) {
+                    for (int j = 1; j <= particles; j++) {
+                        float ratio = (float) j / particles;
+                        double angle = curveRatio * ratio * 2 * Math.PI / strands + (2 * Math.PI * i / strands) + (Math.PI / 4) - (step2 / 40.0);
+
+                        double x = Math.cos(angle) * ratio * radius;
+                        double z = Math.sin(angle) * ratio * radius;
+                        portal.getWorld().spawnParticle(Particle.REDSTONE, x + portal.getX(), portal.getY() + (0.5 * (1 - ratio)), z + portal.getZ(),
+                                0, 0.01, 0, 0, 1);
+                    }
+                }
+
+                if (step % 20 == 0) {
+                    for (int i = 0; i < 30; i++) {
+                        double rads = Math.toRadians(i * 12);
+
+                        double x = Math.cos(rads) * radius;
+                        double z = Math.sin(rads) * radius;
+                        portal.getWorld().spawnParticle(Particle.DRAGON_BREATH, x + portal.getX(), portal.getY(), z + portal.getZ(), 1, 0.1, 0, 0.1, 0);
+//                            0, 1, 0, 1, 1);
+                    }
+                }
+
+                portal.getWorld().spawnParticle(Particle.PORTAL, portal.getX(), portal.getY(), portal.getZ(), 8, 0.1, 0.1, 0.1, 0.6);
+
+                step += 1;
+                step %= 40;
+                step2 += 1;
+                step2 %= 40;
+            }
+        }, 0L, 1L);
+        Core.runTaskTimer(Lobby.getInstance(), () -> launchPadLocations.forEach(loc -> {
+            Block b = loc.getBlock();
+            if (!b.getType().equals(Material.EMERALD_BLOCK)) return;
+            b.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, loc.clone().add(0, 1.1, 0),
+                    2, 0.45, 0.05, 0.45, 0);
+        }), 0L, 5L);
         Core.runTaskTimer(Lobby.getInstance(), () -> {
             /*
             Schedule:

@@ -9,16 +9,17 @@ import network.palace.core.player.CPlayer;
 import network.palace.core.player.Rank;
 import network.palace.core.player.RankTag;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChat implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         event.setCancelled(true);
         CPlayer player = Core.getPlayerManager().getPlayer(event.getPlayer());
-        if (player == null) return;
+        if (player == null || player.getRegistry().hasEntry("tutorial_start")) return;
         Rank rank = player.getRank();
         String msg;
         if (rank.getRankId() >= Rank.TRAINEE.getRankId()) {

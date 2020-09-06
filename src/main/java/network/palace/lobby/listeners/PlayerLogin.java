@@ -32,7 +32,7 @@ public class PlayerLogin implements Listener {
             Lobby.getTutorialManager().start(player);
         } else {
             // Player has run tutorial already
-            if (Lobby.getConfigUtil().getSpawn() != null) player.teleport(Lobby.getConfigUtil().getSpawn());
+//            if (Lobby.getConfigUtil().getSpawn() != null) player.teleport(Lobby.getConfigUtil().getSpawn());
             Lobby.getInventoryUtil().handleJoin(player);
             player.addPotionEffect(speed);
             if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) player.setAllowFlight(true);

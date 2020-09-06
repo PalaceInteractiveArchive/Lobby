@@ -4,7 +4,10 @@ import network.palace.core.Core;
 import network.palace.core.player.CPlayer;
 import network.palace.cosmetics.Cosmetics;
 import network.palace.lobby.Lobby;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -14,7 +17,12 @@ public class PlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         CPlayer player = Core.getPlayerManager().getPlayer(event.getPlayer());
-        if (player == null) return;
+        if (player == null || event.getClickedBlock() == null) return;
+        if (event.getClickedBlock().getType().equals(Material.EMERALD_BLOCK)) {
+            Location loc = event.getClickedBlock().getLocation();
+            Bukkit.broadcastMessage("new Location(w, " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + ")");
+            return;
+        }
         switch (event.getMaterial()) {
             case NETHER_STAR:
                 Lobby.getInventoryNav().openInventory(player);
