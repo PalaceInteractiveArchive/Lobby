@@ -14,6 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class TutorialManager {
     private static final PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 100, 0, true);
@@ -21,26 +22,59 @@ public class TutorialManager {
     private final World world = Bukkit.getWorld("hub");
     private final Location spawn = new Location(world, 58.5, 71, 22.5, -90, -90);
     private final List<CPlayer> inTutorial = new ArrayList<>();
+    private final Random random;
 
     @SuppressWarnings("unchecked")
     public TutorialManager() {
-        Core.runTaskTimer(Lobby.getInstance(), () -> {
-            List<CPlayer> tutorialDone = new ArrayList<>();
-            inTutorial.forEach(tp -> {
-                if (!tp.getRegistry().hasEntry("tutorial_actions")) return;
-                List<TutorialAction> actions = (List<TutorialAction>) tp.getRegistry().getEntry("tutorial_actions");
-                if (actions.isEmpty()) return;
-                long startTime = (long) tp.getRegistry().getEntry("tutorial_start");
-                List<TutorialAction> toRemove = new ArrayList<>();
-                actions.forEach(action -> {
-                    if (System.currentTimeMillis() - startTime >= action.getTime()) {
-                        if (action.run(tp)) toRemove.add(action);
+        random = new Random();
+        Location chairParticles = new Location(world, 63.5, 73.1, 19.5);
+        Location compassParticles = new Location(world, 63.5, 73.3, 12.5);
+        Location bookParticles = new Location(world, 62.5, 75.6, 25.5);
+        Location bagParticles = new Location(world, 57.5, 72.4, 17.5);
+        Core.runTaskTimer(Lobby.getInstance(), new Runnable() {
+            int i = 1;
+
+            @Override
+            public void run() {
+                List<CPlayer> tutorialDone = new ArrayList<>();
+                inTutorial.forEach(tp -> {
+                    if (i % 10 == 0 && tp.getRegistry().hasEntry("tutorial_particle")) {
+                        switch ((String) tp.getRegistry().getEntry("tutorial_particle")) {
+                            case "chair": {
+                                tp.getParticles().send(chairParticles, Particle.VILLAGER_HAPPY, 2, 0.35f, 0.15f, 0.35f, 0.1f);
+                                break;
+                            }
+                            case "items": {
+                                if (tp.getRegistry().hasEntry("tutorial_compass"))
+                                    tp.getParticles().send(compassParticles, Particle.VILLAGER_HAPPY, 2, 0.15f, 0.15f, 0.15f, 0.1f);
+                                if (tp.getRegistry().hasEntry("tutorial_book"))
+                                    tp.getParticles().send(bookParticles, Particle.VILLAGER_HAPPY, 2, 0.15f, 0.15f, 0.15f, 0.1f);
+                                if (tp.getRegistry().hasEntry("tutorial_bag"))
+                                    tp.getParticles().send(bagParticles, Particle.VILLAGER_HAPPY, 2, 0.15f, 0.15f, 0.15f, 0.1f);
+                                if (!tp.getRegistry().hasEntry("tutorial_compass") && !tp.getRegistry().hasEntry("tutorial_book") && !tp.getRegistry().hasEntry("tutorial_bag"))
+                                    tp.getParticles().send(chairParticles, Particle.VILLAGER_HAPPY, 2, 0.35f, 0.15f, 0.35f, 0.1f);
+                                break;
+                            }
+                        }
                     }
+                    if (!tp.getRegistry().hasEntry("tutorial_start")) {
+                        tutorialDone.add(tp);
+                        return;
+                    }
+                    List<TutorialAction> actions = (List<TutorialAction>) tp.getRegistry().getEntry("tutorial_actions");
+                    if (actions.isEmpty()) return;
+                    long startTime = (long) tp.getRegistry().getEntry("tutorial_start");
+                    List<TutorialAction> toRemove = new ArrayList<>();
+                    actions.forEach(action -> {
+                        if (System.currentTimeMillis() - startTime >= action.getTime()) {
+                            if (action.run(tp)) toRemove.add(action);
+                        }
+                    });
+                    actions.removeAll(toRemove);
                 });
-                actions.removeAll(toRemove);
-                if (actions.isEmpty()) tutorialDone.add(tp);
-            });
-            inTutorial.removeAll(tutorialDone);
+                inTutorial.removeAll(tutorialDone);
+                if (++i > 20) i = 0;
+            }
         }, 0L, 1L);
     }
 
@@ -51,7 +85,7 @@ public class TutorialManager {
         player.setGamemode(GameMode.ADVENTURE);
         ((CorePlayerManager) Core.getPlayerManager()).getDefaultScoreboard().disableDefaultScoreboard(player.getUniqueId());
         player.getScoreboard().clear();
-        Core.getPlayerManager().displayRank(player);
+//        Core.getPlayerManager().displayRank(player);
         for (CPlayer tp : Core.getPlayerManager().getOnlinePlayers()) {
             player.hidePlayer(Lobby.getInstance(), tp);
             tp.hidePlayer(Lobby.getInstance(), player);
@@ -82,304 +116,103 @@ public class TutorialManager {
                         return true;
                     }
                 },
-                new TutorialAction(2450) {
-                    @Override
-                    public boolean run(CPlayer player) {
-//                        s.remove();
-//                        player.setGamemode(GameMode.SPECTATOR);
-                        return true;
-                    }
-                },
-                new TutorialAction(2500) {
-                    @Override
-                    public boolean run(CPlayer player) {
-//                        player.teleport(s2.getLocation());
-//                        player.getBukkitPlayer().setSpectatorTarget(s2);
-                        return true;
-                    }
-                },
-//                new MoveEntityAction(4000, s2, to, 40),
                 new MessageAction(7000, ChatColor.GRAY + "Man: " + ChatColor.WHITE + "Oh, hello there. You're awake!"),
                 new MessageAction(10500, ChatColor.GRAY + "Man: " + ChatColor.WHITE + "I’m sure you’re wondering where you are. When you’re ready, come sit and we’ll talk."),
                 new TutorialAction(15500) {
                     @Override
                     public boolean run(CPlayer player) {
                         player.getRegistry().addEntry("tutorial_leave_bed", true);
+                        player.getRegistry().addEntry("tutorial_particle", "chair");
                         player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "Leave the bed by holding " + ChatColor.AQUA + "Left-Shift");
                         return true;
                     }
                 }
-//        new MessageAction(2000, ChatColor.AQUA + "Would you like to connect to the Audio Server to hear music and sounds?"),
-//                new TutorialAction(4000) {
-//                    @Override
-//                    public boolean run(CPlayer player) {
-//                        FormattedMessage msg = new FormattedMessage("Yes").color(ChatColor.GREEN).command("tutorial audio yes").tooltip(ChatColor.AQUA + "Click to connect to the Audio Server")
-//                                .then("\nClick Yes or No\n").color(ChatColor.GRAY).style(ChatColor.ITALIC)
-//                                .then("No").color(ChatColor.RED).command("tutorial audio no").tooltip(ChatColor.AQUA + "Click to skip using the Audio Server (you can connect later!)");
-//                        msg.send(player);
-//                    }
-//                }
         ));
         player.getRegistry().addEntry("tutorial_start", System.currentTimeMillis());
         player.getRegistry().addEntry("tutorial_actions", actions);
     }
 
-    public void oldTutorial(CPlayer player) {
-        inTutorial.add(player);
-        Location spawn = new Location(world, -34.5, 56.0, -109.5, -135, 0);
-        player.teleport(spawn);
-        player.addPotionEffect(blindness);
-        ((CorePlayerManager) Core.getPlayerManager()).getDefaultScoreboard().disableDefaultScoreboard(player.getUniqueId());
-//        player.getScoreboard().clear();
-        Core.getPlayerManager().displayRank(player);
-        for (CPlayer tp : Core.getPlayerManager().getOnlinePlayers()) {
-            player.hidePlayer(Lobby.getInstance(), tp);
-            tp.hidePlayer(Lobby.getInstance(), player);
-        }
-        ArmorStand s = spawn.getWorld().spawn(new Location(spawn.getWorld(), -34.2, 47.5, -109.5, -135, -15), ArmorStand.class);
-        s.setGravity(false);
-        s.setVisible(false);
+    public void startTableDiscussion(CPlayer player) {
+        player.getRegistry().removeEntry("tutorial_particle");
         List<TutorialAction> actions = new ArrayList<>(Arrays.asList(
-                new TutorialAction(0) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.setAllowFlight(true);
-                        player.setFlying(true);
-                        player.teleport(spawn);
-                        return true;
-                    }
-                },
-                new TutorialAction(250) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.setFlying(false);
-                        player.setAllowFlight(false);
-                        player.teleport(spawn);
-                        return true;
-                    }
-                },
-                new TutorialAction(1000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        Location loc = player.getLocation();
-                        loc.setYaw(-135);
-                        loc.setPitch(-36);
-                        player.getBukkitPlayer().teleport(loc);
-                        player.setGamemode(GameMode.ADVENTURE);
-                        s.addPassenger(player.getBukkitPlayer());
-                        return true;
-                    }
-                },
-                new TutorialAction(4300) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.WHITE + "" + ChatColor.ITALIC + "Another one came through!");
-                        return true;
-                    }
-                },
-                new TutorialAction(6500) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.WHITE + "" + ChatColor.ITALIC + "Over here!");
-                        return true;
-                    }
-                },
-                new TutorialAction(9750) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        s.removePassenger(player.getBukkitPlayer());
-                        s.teleport(new Location(spawn.getWorld(), -34.2, 48.5, -109.5, -135, -15));
-                        return true;
-                    }
-                },
-                new TutorialAction(10000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.setGamemode(GameMode.SPECTATOR);
-                        player.getBukkitPlayer().setSpectatorTarget(s);
-                        return true;
-                    }
-                },
-                new TutorialAction(11200) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "Man: " + ChatColor.WHITE + "There you are! You took quite a fall, there.");
-                        return true;
-                    }
-                },
-                new TutorialAction(14600) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "Man: " + ChatColor.WHITE + "Here, let's get you sitting up.");
-                        return true;
-                    }
-                },
-                new TutorialAction(18000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.setGamemode(GameMode.ADVENTURE);
-                        s.addPassenger(player.getBukkitPlayer());
-                        return true;
-                    }
-                },
-                new TutorialAction(20500) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "Man: " + ChatColor.WHITE + "A lot of people have come through recently. So, we made the landing a little softer, ha ha!");
-                        return true;
-                    }
-                },
-                new TutorialAction(26800) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "You: " + ChatColor.WHITE + "Through?");
-                        return true;
-                    }
-                },
-                new TutorialAction(27900) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "You: " + ChatColor.WHITE + "Through what?");
-                        return true;
-                    }
-                },
-                new TutorialAction(30000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "Man: " + ChatColor.WHITE + "That portal up there! Ya see?");
-                        return true;
-                    }
-                },
-                new TutorialAction(38000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "Man: " + ChatColor.WHITE + "What's your name?");
-                        return true;
-                    }
-                },
-                new TutorialAction(41000) {
+                new MessageAction(2000, ChatColor.GRAY + "Man: " + ChatColor.WHITE + "Hi there, my name is Elred. What's your name?"),
+                new TutorialAction(7000) {
                     @Override
                     public boolean run(CPlayer player) {
                         player.sendMessage(ChatColor.GRAY + "You: " + ChatColor.WHITE + player.getName());
                         return true;
                     }
                 },
-                new TutorialAction(43700) {
+                new TutorialAction(10000) {
                     @Override
                     public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + "Man: " + ChatColor.WHITE + "Nice to meet you, " + player.getName() + ". I'm " + ChatColor.AQUA + "Elred" + ChatColor.WHITE + ". I've been keeping an eye out for people such as yourself that come through that portal.");
+                        player.sendMessage(ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Nice to meet you, " + player.getName() + ".");
                         return true;
                     }
                 },
-                new TutorialAction(51700) {
+                new MessageAction(13000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Welcome to the " + ChatColor.LIGHT_PURPLE + "Kingdom of Ravelia!"),
+                new MessageAction(17000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Right now, you’re on " + ChatColor.GREEN + "Lotus Island." +
+                        ChatColor.WHITE + " It’s the central island of the kingdom."),
+                new MessageAction(22000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Because of that, we usually call it " + ChatColor.GREEN + "Hub Island."),
+                new MessageAction(28000, ChatColor.GRAY + "You: " + ChatColor.WHITE + "How did I get here?"),
+                new MessageAction(31000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Do you remember where you were before?"),
+                new MessageAction(34000, ChatColor.GRAY + "You: " + ChatColor.WHITE + "..."),
+                new MessageAction(36000, ChatColor.GRAY + "You: " + ChatColor.WHITE + "No."),
+                new MessageAction(38000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "That's alright. Lots of new settlers have started to appear recently. They don't remember their past either."),
+                new MessageAction(44000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "We're excited that our kingdom is growing! We're just not sure where everyone's coming from."),
+                new TutorialAction(50500) {
                     @Override
                     public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "Some hikers came across the portal recently. No one knows where it came from.");
+                        List<String> options = Arrays.asList("on the shore near the island's port.",
+                                "in the forest to the west of the town center.",
+                                "near the castle walls at the east edge of the island.");
+                        int rand = random.nextInt(options.size());
+                        player.sendMessage(ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "You were found " + options.get(rand));
                         return true;
                     }
                 },
-                new TutorialAction(57000) {
+                new MessageAction(55000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Some of the settlers here are trying to get to the bottom of it."),
+                new MessageAction(61000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "But never mind that for now!"),
+                new MessageAction(64000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Let's get you out of here and into town."),
+                new MessageAction(68000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "First, I have some supplies here to help you in your adventures!"),
+                new MessageAction(75000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Look around the room for a " + ChatColor.GREEN + "Navigation Compass" +
+                        ChatColor.WHITE + ", an " + ChatColor.GREEN + "Adventure Log" + ChatColor.WHITE + ", and a " + ChatColor.GREEN + "Loot Bag" + ChatColor.WHITE + "."),
+                new MessageAction(81000, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Come sit down again when you have everything you need."),
+                new TutorialAction(85000) {
                     @Override
                     public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "Then, people started coming through!");
+                        player.getRegistry().addEntry("tutorial_leave_table", true);
+                        player.getRegistry().addEntry("tutorial_particle", "items");
+                        player.getRegistry().addEntry("tutorial_items", true);
+                        player.getRegistry().addEntry("tutorial_compass", true);
+                        player.getRegistry().addEntry("tutorial_book", true);
+                        player.getRegistry().addEntry("tutorial_bag", true);
+                        player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "Leave the chair by holding " + ChatColor.AQUA + "Left-Shift");
                         return true;
                     }
-                },
-                new TutorialAction(60000) {
+                }
+        ));
+        player.getRegistry().addEntry("tutorial_start", System.currentTimeMillis());
+        player.getRegistry().addEntry("tutorial_actions", actions);
+    }
+
+    public void startLastTableDiscussion(CPlayer player) {
+        player.getRegistry().removeEntry("tutorial_items");
+        player.getRegistry().removeEntry("tutorial_particle");
+        List<TutorialAction> actions = new ArrayList<>(Arrays.asList(
+                new MessageAction(500, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "Great! Looks like you have everything you need."),
+                new MessageAction(2500, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "There are so many fun things to do here! I'm sure you'll find something you enjoy."),
+                new MessageAction(8500, ChatColor.GRAY + "Elred: " + ChatColor.WHITE + "And, people in the kingdom are always looking for new ways to have fun!"),
+                new TutorialAction(10000) {
                     @Override
                     public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "The only thing people seem to remember is their name. You don't remember what led you here, do you?");
-                        return true;
-                    }
-                },
-                new TutorialAction(66000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + player.getName() + ": " + ChatColor.WHITE + "No...");
-                        return true;
-                    }
-                },
-                new TutorialAction(69000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "It's certainly strange... Some of the settlers here are trying to get to the bottom of it.");
-                        return true;
-                    }
-                },
-                new TutorialAction(75500) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.GRAY + player.getName() + ": " + ChatColor.WHITE + "Where am I?");
-                        return true;
-                    }
-                },
-                new TutorialAction(77500) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "Oh, right! How silly of me.");
-                        return true;
-                    }
-                },
-                new TutorialAction(80250) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "You're in the " + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Kingdom of Ravelia!");
-                        return true;
-                    }
-                },
-                new TutorialAction(84000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "Right now, you're on " + ChatColor.AQUA + "Lotus Island" + ChatColor.WHITE + ". It's the central island of the kingdom.");
-                        return true;
-                    }
-                },
-                new TutorialAction(89000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "Let's get you out of here and into town.");
-                        return true;
-                    }
-                },
-                new TutorialAction(93000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        s.removePassenger(player.getBukkitPlayer());
-                        return true;
-                    }
-                },
-                new TutorialAction(97000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "Hold on, I almost forgot! Just a moment...");
-                        return true;
-                    }
-                },
-                new TutorialAction(101000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "Abrakadbra");
-                        return true;
-                    }
-                },
-                new TutorialAction(103000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "Alakazam");
-                        return true;
-                    }
-                },
-                new TutorialAction(106000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.getParticles().send(new Location(player.getWorld(), -27.5, 52.5, -112.1), Particle.FIREWORKS_SPARK, 25, 0.7f, 0.3f, 0.1f, 0.1f);
-                        return true;
-                    }
-                },
-                new TutorialAction(111000) {
-                    @Override
-                    public boolean run(CPlayer player) {
-                        player.sendMessage(ChatColor.AQUA + "Elred: " + ChatColor.WHITE + "What numbers do you see on the wall, there? In order, please.");
+                        player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "This concludes the draft tutorial.");
+                        String[] entries = new String[]{"tutorial_start", "tutorial_actions", "tutorial_sit_chair", "tutorial_leave_table",
+                                "tutorial_leave_bed", "tutorial_first_scene_leave_message_delay", "tutorial_particle", "tutorial_first_scene",
+                                "tutorial_compass", "tutorial_book", "tutorial_bag", "tutorial_items"};
+                        for (String entry : entries) {
+                            player.getRegistry().removeEntry(entry);
+                        }
                         return true;
                     }
                 }

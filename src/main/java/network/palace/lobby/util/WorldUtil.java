@@ -140,7 +140,7 @@ public class WorldUtil {
                 //if lights should be on
                 if (!streetLights) {
                     //turn them on
-                    Bukkit.broadcastMessage("Street lights on!");
+                    Bukkit.getLogger().info("Street lights on!");
                     Collections.shuffle(streetLightLocations);
                     int i = 0;
                     boolean stopped = false;
@@ -173,7 +173,7 @@ public class WorldUtil {
                 }
             }
             if ((time >= 13000 && time < 23000) && !streetLights) {
-                Bukkit.broadcastMessage("Street lights on!");
+                Bukkit.getLogger().info("Street lights on!");
                 Collections.shuffle(streetLightLocations);
                 int i = 0;
                 boolean stopped = false;
@@ -196,7 +196,7 @@ public class WorldUtil {
                 }
                 if (!stopped) streetLights = true;
             } else if ((time >= 23000 || time < 13000) && streetLights) {
-                Bukkit.broadcastMessage("Street lights off!");
+                Bukkit.getLogger().info("Street lights off!");
                 Collections.shuffle(streetLightLocations);
                 int i = 0;
                 boolean stopped = false;
@@ -215,10 +215,10 @@ public class WorldUtil {
             }
             if ((time >= 14000 && time < 18000) && !shootingStars) {
                 shootingStars = true;
-                Bukkit.broadcastMessage("Shooting stars starting!");
+                Bukkit.getLogger().info("Shooting stars starting!");
             } else if ((time >= 18000 || time < 14000) && shootingStars) {
                 shootingStars = false;
-                Bukkit.broadcastMessage("Shooting stars reset!");
+                Bukkit.getLogger().info("Shooting stars reset!");
             }
         }, 0L, 20L);
     }

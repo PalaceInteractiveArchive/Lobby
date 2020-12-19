@@ -27,7 +27,9 @@ public class TutorialCommand extends CoreCommand {
                 break;
             }
             case "reset": {
-                String[] entries = new String[]{"tutorial_start", "tutorial_actions", "tutorial_leave_bed", "tutorial_first_scene_leave_message_delay"};
+                String[] entries = new String[]{"tutorial_start", "tutorial_actions", "tutorial_sit_chair", "tutorial_leave_table",
+                        "tutorial_leave_bed", "tutorial_first_scene_leave_message_delay", "tutorial_particle", "tutorial_first_scene",
+                        "tutorial_compass", "tutorial_book", "tutorial_bag", "tutorial_items"};
                 for (String entry : entries) {
                     player.getRegistry().removeEntry(entry);
                 }

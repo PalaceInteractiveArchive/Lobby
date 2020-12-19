@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
 import network.palace.core.Core;
 import network.palace.core.menu.Menu;
 import network.palace.core.menu.MenuButton;
@@ -23,9 +24,9 @@ import java.util.UUID;
 
 public class InventoryUtil {
     private final List<UUID> joinList = new ArrayList<>();
-    private final ItemStack lootBag;
-    private final ItemStack compass;
-    private final ItemStack adventureLog;
+    @Getter private final ItemStack lootBag;
+    @Getter private final ItemStack compass;
+    @Getter private final ItemStack adventureLog;
     private final List<CPlayer> popList = new ArrayList<>();
 
     public InventoryUtil() {
@@ -90,20 +91,14 @@ public class InventoryUtil {
                     p.teleport(new Location(p.getWorld(), -18.5, 68, 24.5, 35, -5));
                     popList.add(player);
                 })),
-                new MenuButton(16, getMenuItem(player, Material.NETHER_STAR, ChatColor.GOLD + "Mini Games", "hub.compass.games"), ImmutableMap.of(ClickType.LEFT, p -> {
-                    p.sendMessage(ChatColor.GREEN + "Traveling to Camp Alto...");
-                })),
-                new MenuButton(28, getMenuItem(player, Material.WATCH, ChatColor.DARK_AQUA + "Treetop Parkour", "hub.compass.parkour"), ImmutableMap.of(ClickType.LEFT, p -> {
-                    p.sendMessage(ChatColor.GREEN + "Traveling to the Treetop Parkour...");
-                })),
+                new MenuButton(16, getMenuItem(player, Material.NETHER_STAR, ChatColor.GOLD + "Mini Games", "hub.compass.games"), ImmutableMap.of(ClickType.LEFT, p -> p.sendMessage(ChatColor.GREEN + "Traveling to Camp Alto..."))),
+                new MenuButton(28, getMenuItem(player, Material.WATCH, ChatColor.DARK_AQUA + "Treetop Parkour", "hub.compass.parkour"), ImmutableMap.of(ClickType.LEFT, p -> p.sendMessage(ChatColor.GREEN + "Traveling to the Treetop Parkour..."))),
                 new MenuButton(31, getMenuItem(player, Material.EMERALD, ChatColor.GREEN + "Central Marketplace", "hub.compass.marketplace"), ImmutableMap.of(ClickType.LEFT, p -> {
                     p.sendMessage(ChatColor.GREEN + "Traveling to the Central Marketplace...");
                     p.teleport(new Location(p.getWorld(), 54, 61, 60, -92, -10));
                     popList.add(player);
                 })),
-                new MenuButton(34, ItemUtil.create(Material.BOOK, ChatColor.GREEN + "Alternate Hubs"), ImmutableMap.of(ClickType.LEFT, p -> {
-                    p.sendMessage(ChatColor.GREEN + "Open hub menu");
-                }))
+                new MenuButton(34, ItemUtil.create(Material.BOOK, ChatColor.GREEN + "Alternate Hubs"), ImmutableMap.of(ClickType.LEFT, p -> p.sendMessage(ChatColor.GREEN + "Open hub menu")))
         );
         Menu menu = new Menu(45, ChatColor.BLUE + "Navigation Compass", player, buttons);
         menu.open();

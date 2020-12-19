@@ -67,12 +67,10 @@ public class PacketListener implements Listener {
                         Entity e = player.getBukkitPlayer().getVehicle();
                         Core.runTask(Lobby.getInstance(), () -> {
                             player.getRegistry().removeEntry("tutorial_leave_bed");
+                            player.getRegistry().addEntry("tutorial_sit_chair", true);
                             player.teleport(new Location(player.getWorld(), 58.5, 72.1, 21.5, -90, 0));
                             if (e != null && !e.isDead()) e.remove();
                         });
-                    } else if (player.getRegistry().hasEntry("tutorial_leave_table")) {
-                        player.getRegistry().removeEntry("tutorial_leave_table");
-                        event.setCancelled(false);
                     } else {
                         event.setCancelled(true);
                     }
