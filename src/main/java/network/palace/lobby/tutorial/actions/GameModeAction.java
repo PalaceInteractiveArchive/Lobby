@@ -12,7 +12,8 @@ public class GameModeAction extends TutorialAction {
     }
 
     @Override
-    public void run(CPlayer player) {
+    public boolean run(CPlayer player) {
         player.setGamemode(mode);
+        return true;
     }
 }

@@ -31,7 +31,20 @@ public class WorldUtil {
                 new Location(w, -30, 75, -65),
                 new Location(w, -45, 77, -45),
                 new Location(w, -75, 75, -52),
-                new Location(w, -89, 75, -40)
+                new Location(w, -89, 75, -40),
+                new Location(w, 12, 76, 47),
+                new Location(w, 52, 73, 53),
+                new Location(w, 10, 76, 70),
+                new Location(w, 24, 75, 86),
+                new Location(w, 6, 68, 103),
+                new Location(w, 106, 72, 84),
+                new Location(w, 107, 72, 51),
+                new Location(w, 92, 73, 31),
+                new Location(w, 81, 73, 19),
+                new Location(w, 95, 73, 12),
+                new Location(w, 82, 74, -4),
+                new Location(w, 59, 73, 6),
+                new Location(w, 61, 73, 81)
         ));
         launchPadLocations.addAll(Arrays.asList(
                 new Location(w, -25, 62, -51),
@@ -208,6 +221,9 @@ public class WorldUtil {
                 Bukkit.broadcastMessage("Shooting stars reset!");
             }
         }, 0L, 20L);
+    }
+
+    public void shutdown() {
     }
 
     private static class Handler {

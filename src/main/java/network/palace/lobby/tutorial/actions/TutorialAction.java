@@ -10,5 +10,5 @@ public abstract class TutorialAction {
         this.time = time;
     }
 
-    public abstract void run(CPlayer player);
+    public abstract boolean run(CPlayer player);
 }

@@ -13,9 +13,10 @@ public class TeleportAction extends TutorialAction {
     }
 
     @Override
-    public void run(CPlayer player) {
+    public boolean run(CPlayer player) {
         Vector v = player.getVelocity();
         player.teleport(loc);
         player.setVelocity(v);
+        return true;
     }
 }

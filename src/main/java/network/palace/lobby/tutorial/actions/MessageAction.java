@@ -14,10 +14,11 @@ public class MessageAction extends TutorialAction {
     }
 
     @Override
-    public void run(CPlayer player) {
+    public boolean run(CPlayer player) {
         WrapperPlayServerChat packet = new WrapperPlayServerChat();
         packet.setMessage(WrappedChatComponent.fromText(text));
         packet.setPosition(EnumWrappers.ChatType.CHAT);
         player.sendPacket(packet);
+        return true;
     }
 }

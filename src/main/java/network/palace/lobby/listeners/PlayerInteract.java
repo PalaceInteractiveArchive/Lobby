@@ -17,18 +17,19 @@ public class PlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         CPlayer player = Core.getPlayerManager().getPlayer(event.getPlayer());
-        if (player == null || event.getClickedBlock() == null) return;
-        if (event.getClickedBlock().getType().equals(Material.EMERALD_BLOCK)) {
+        if (player == null) return;
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.EMERALD_BLOCK)) {
             Location loc = event.getClickedBlock().getLocation();
             Bukkit.broadcastMessage("new Location(w, " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + ")");
             return;
         }
         switch (event.getMaterial()) {
-            case NETHER_STAR:
-                Lobby.getInventoryNav().openInventory(player);
+            case COMPASS:
+                Lobby.getInventoryUtil().openCompassMenu(player);
+//                Lobby.getInventoryNav().openInventory(player);
                 break;
             case BOOK:
-                Lobby.getHubSelector().openInventory(player);
+//                Lobby.getHubSelector().openInventory(player);
                 break;
             case ENDER_CHEST:
                 try {
