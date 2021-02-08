@@ -56,7 +56,6 @@ public class Lobby extends Plugin {
     private void registerListeners() {
 //        registerListener(new CosmeticListener());
         registerListener(new InventoryClick());
-        registerListener(new PacketListener());
         registerListener(new PlayerDropItem());
         registerListener(new PlayerFood());
         registerListener(new PlayerInteract());

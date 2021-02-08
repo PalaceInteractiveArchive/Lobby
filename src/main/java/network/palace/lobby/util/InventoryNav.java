@@ -24,7 +24,7 @@ public class InventoryNav {
             new ServerInfo("Arcade", 16, Material.BOW, "lobby.nav.arcade")
     };
     private int parks = 0, creative = 0, arcade = 0;
-    private HashMap<UUID, Menu> openInventories = new HashMap<>();
+    private final HashMap<UUID, Menu> openInventories = new HashMap<>();
     private boolean green = true;
 
     public InventoryNav() {
@@ -38,7 +38,7 @@ public class InventoryNav {
                         Menu menu = entry.getValue();
                         for (int i = 0; i < menu.getSize(); i++) {
                             Optional<MenuButton> opt = menu.getButton(i);
-                            if (!opt.isPresent()) continue;
+                            if (opt.isEmpty()) continue;
                             MenuButton button = opt.get();
                             ItemStack item = button.getItemStack();
                             if (item == null) continue;
@@ -111,7 +111,7 @@ public class InventoryNav {
             if (count >= 0) descList.add(ChatColor.GRAY + "" + count + " player" + TextUtil.pluralize(count));
 
             ItemStack item = ItemUtil.create(info.getItem(), ChatColor.GREEN + info.getName(), descList);
-            item = ItemUtil.hideAttributes(item);
+            ItemUtil.hideAttributes(item);
             menu.setButton(new MenuButton(info.getPosition(), item, ImmutableMap.of(ClickType.LEFT, p -> {
                 player.sendMessage(ChatColor.GREEN + "Sending you to " + info.getName() + "...");
                 if (info.getLocation().equals("WDW")) {
