@@ -14,7 +14,7 @@ import network.palace.lobby.scoreboard.ScoreboardManager;
 import network.palace.lobby.tutorial.TutorialManager;
 import network.palace.lobby.util.*;
 
-@PluginInfo(name = "Lobby", version = "1.1.7", depend = {"Core", "WorldGuard"}, canReload = true, apiversion = "1.13")
+@PluginInfo(name = "Lobby", version = "1.1.8", depend = {"Core"}, canReload = true, apiversion = "1.13")
 public class Lobby extends Plugin {
     @Getter private static Lobby instance;
     @Getter private static InventoryNav inventoryNav;
