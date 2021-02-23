@@ -8,17 +8,11 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import network.palace.core.Core;
-import network.palace.core.dashboard.packets.PacketID;
-import network.palace.core.dashboard.packets.dashboard.PacketLobbyData;
-import network.palace.core.events.IncomingPacketEvent;
 import network.palace.core.player.CPlayer;
 import network.palace.lobby.Lobby;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.lang.reflect.Field;
@@ -78,15 +72,5 @@ public class PacketListener implements Listener {
             }
         });
 
-    }
-
-    @EventHandler
-    public void onIncomingPacket(IncomingPacketEvent event) {
-        String packet = event.getPacket();
-        if (event.getId() != PacketID.Dashboard.LOBBYDATA.getID()) return;
-        JsonObject object = (JsonObject) new JsonParser().parse(packet);
-        PacketLobbyData lobbyData = new PacketLobbyData().fromJSON(object);
-        Lobby.getInventoryNav().updateCounts(lobbyData.getParks(), lobbyData.getCreative(), lobbyData.getArcade());
-        Lobby.getHubSelector().updateCounts(lobbyData.getHubs());
     }
 }
