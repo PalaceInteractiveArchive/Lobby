@@ -24,6 +24,8 @@ public class PlayerLogin implements Listener {
 
     public static void handleJoin(CPlayer player) {
         player.resetPlayer();
+        player.setFlySpeed(0.1f);
+        player.setWalkSpeed(0.2f);
         player.setGamemode(GameMode.ADVENTURE);
         if (needTutorial.contains(player.getName())) {
             // Run tutorial for player
@@ -35,7 +37,7 @@ public class PlayerLogin implements Listener {
             Lobby.getInventoryUtil().handleJoin(player);
             player.addPotionEffect(speed);
             Lobby.getTutorialManager().hideForTutorialPlayers(player);
-            if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) player.setAllowFlight(true);
+            player.setAllowFlight(player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId());
         }
     }
 }

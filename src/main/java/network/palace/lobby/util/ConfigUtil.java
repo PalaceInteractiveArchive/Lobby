@@ -17,8 +17,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -31,6 +29,7 @@ public class ConfigUtil {
     private String serverPack = "WDW";
     private Location spawn, tutorialSpawn;
 
+    private int lastOnline = 0;
     private int lastParks = 0;
     private int lastCreative = 0;
     private int lastArcade = 0;
@@ -72,6 +71,7 @@ public class ConfigUtil {
         }
         serversCollection = Core.getMongoHandler().getDatabase().getCollection("servers");
         Core.runTaskTimer(Lobby.getInstance(), () -> {
+            int online = Core.getMongoHandler().getPlayerCount();
             int parks = 0;
             int creative = 0;
             int arcade = 0;
@@ -93,7 +93,7 @@ public class ConfigUtil {
                 }
             }
 
-            if (parks == lastParks && creative == lastCreative && arcade == lastArcade) {
+            if (online == lastOnline && parks == lastParks && creative == lastCreative && arcade == lastArcade) {
                 boolean stop = !hubs.isEmpty() || !lastHubs.isEmpty();
                 for (Map.Entry<String, Integer> entry : hubs.entrySet()) {
                     if (!lastHubs.containsKey(entry.getKey()) || !lastHubs.get(entry.getKey()).equals(entry.getValue())) {
@@ -104,11 +104,13 @@ public class ConfigUtil {
                 if (stop) return;
             }
 
+            lastOnline = online;
             lastParks = parks;
             lastCreative = creative;
             lastArcade = arcade;
             lastHubs = hubs;
 
+            Lobby.getScoreboardManager().updateCounts(online);
             Lobby.getInventoryNav().updateCounts(parks, creative, arcade);
             Lobby.getHubSelector().updateCounts(hubs);
         }, 20L, 100L);

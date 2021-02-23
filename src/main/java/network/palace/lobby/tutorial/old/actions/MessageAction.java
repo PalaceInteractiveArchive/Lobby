@@ -1,4 +1,4 @@
-package network.palace.lobby.tutorial.actions;
+package network.palace.lobby.tutorial.old.actions;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;

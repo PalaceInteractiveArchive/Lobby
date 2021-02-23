@@ -1,4 +1,4 @@
-package network.palace.lobby.tutorial.actions;
+package network.palace.lobby.tutorial.old.actions;
 
 import network.palace.core.player.CPlayer;
 import org.bukkit.GameMode;

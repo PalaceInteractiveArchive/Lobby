@@ -37,40 +37,39 @@ public class PacketListener implements Listener {
             }
         });
 
-        // Prevent ejecting from vechile
-        manager.addPacketListener(new PacketAdapter(Lobby.getInstance(), ListenerPriority.LOWEST, PacketType.Play.Client.STEER_VEHICLE) {
-            @Override
-            public void onPacketReceiving(PacketEvent event) {
-                CPlayer player = Core.getPlayerManager().getPlayer(event.getPlayer());
-                if (player == null) return;
-                PacketContainer packet = event.getPacket();
-                try {
-                    Field f = packet.getBooleans().getFields().get(1);
-                    f.setAccessible(true);
-                    if (!f.getBoolean(packet.getHandle())) {
-                        return;
-                    }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    return;
-                }
-                if (player.getRegistry().hasEntry("tutorial_start")) {
-                    // They're in the tutorial, only allow ejecting when leaving table
-                    if (player.getRegistry().hasEntry("tutorial_leave_bed")) {
-                        event.setCancelled(false);
-                        Entity e = player.getBukkitPlayer().getVehicle();
-                        Core.runTask(Lobby.getInstance(), () -> {
-                            player.getRegistry().removeEntry("tutorial_leave_bed");
-                            player.getRegistry().addEntry("tutorial_sit_chair", true);
-                            player.teleport(new Location(player.getWorld(), 58.5, 72.1, 21.5, -90, 0));
-                            if (e != null && !e.isDead()) e.remove();
-                        });
-                    } else {
-                        event.setCancelled(true);
-                    }
-                }
-            }
-        });
-
+//        // Prevent ejecting from vechile
+//        manager.addPacketListener(new PacketAdapter(Lobby.getInstance(), ListenerPriority.LOWEST, PacketType.Play.Client.STEER_VEHICLE) {
+//            @Override
+//            public void onPacketReceiving(PacketEvent event) {
+//                CPlayer player = Core.getPlayerManager().getPlayer(event.getPlayer());
+//                if (player == null) return;
+//                PacketContainer packet = event.getPacket();
+//                try {
+//                    Field f = packet.getBooleans().getFields().get(1);
+//                    f.setAccessible(true);
+//                    if (!f.getBoolean(packet.getHandle())) {
+//                        return;
+//                    }
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                    return;
+//                }
+//                if (player.getRegistry().hasEntry("tutorial_start")) {
+//                    // They're in the tutorial, only allow ejecting when leaving table
+//                    if (player.getRegistry().hasEntry("tutorial_leave_bed")) {
+//                        event.setCancelled(false);
+//                        Entity e = player.getBukkitPlayer().getVehicle();
+//                        Core.runTask(Lobby.getInstance(), () -> {
+//                            player.getRegistry().removeEntry("tutorial_leave_bed");
+//                            player.getRegistry().addEntry("tutorial_sit_chair", true);
+//                            player.teleport(new Location(player.getWorld(), 58.5, 72.1, 21.5, -90, 0));
+//                            if (e != null && !e.isDead()) e.remove();
+//                        });
+//                    } else {
+//                        event.setCancelled(true);
+//                    }
+//                }
+//            }
+//        });
     }
 }
