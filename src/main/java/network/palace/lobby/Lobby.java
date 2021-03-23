@@ -15,7 +15,7 @@ import network.palace.lobby.util.InventoryNav;
 import network.palace.lobby.util.InventoryUtil;
 import org.bukkit.GameMode;
 
-@PluginInfo(name = "Lobby", version = "1.1.8", depend = {"Core"}, canReload = true, apiversion = "1.13")
+@PluginInfo(name = "Lobby", version = "1.1.9", depend = {"Core"}, canReload = true, apiversion = "1.13")
 public class Lobby extends Plugin {
     @Getter private static Lobby instance;
     @Getter private static InventoryNav inventoryNav;
@@ -38,7 +38,7 @@ public class Lobby extends Plugin {
             player.setGamemode(GameMode.ADVENTURE);
             inventoryUtil.handleJoin(player);
 
-            if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) player.setAllowFlight(true);
+            if (player.getRank().getRankId() >= Rank.SHAREHOLDER.getRankId()) player.setAllowFlight(true);
         }
     }
 

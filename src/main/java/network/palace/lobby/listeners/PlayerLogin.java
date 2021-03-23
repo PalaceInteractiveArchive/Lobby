@@ -19,6 +19,6 @@ public class PlayerLogin implements Listener {
         player.setGamemode(GameMode.ADVENTURE);
         Lobby.getInventoryUtil().handleJoin(player);
 
-        if (player.getRank().getRankId() >= Rank.SPECIALGUEST.getRankId()) player.setAllowFlight(true);
+        if (player.getRank().getRankId() >= Rank.SHAREHOLDER.getRankId()) player.setAllowFlight(true);
     }
 }
