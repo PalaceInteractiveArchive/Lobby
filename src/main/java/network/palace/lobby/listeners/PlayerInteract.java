@@ -5,6 +5,8 @@ import network.palace.core.player.CPlayer;
 import network.palace.cosmetics.Cosmetics;
 import network.palace.lobby.Lobby;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -27,6 +29,13 @@ public class PlayerInteract implements Listener {
                     player.openInventory(Cosmetics.getInventoryUtil().getMainInventory(player));
                 } catch (NoClassDefFoundError e) {
                     player.sendMessage(ChatColor.RED + "There's an error loading Cosmetics right now, sorry!");
+                }
+                break;
+            case IRON_PLATE:
+                if (Lobby.getParkourUtil().checkInParkour(player)) {
+                    Location userTp = Lobby.getParkourUtil().getUserCheckpoint(player);
+                    player.teleport(userTp);
+                    event.setUseInteractedBlock(Event.Result.DENY);
                 }
                 break;
             default:
