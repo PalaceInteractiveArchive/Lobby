@@ -60,12 +60,31 @@ public class PlayerMove implements Listener {
                     player.sendMessage(ChatColor.AQUA + "This is the parkour end! Head to the start to begin the parkour.");
                 }
             }
+            if (b.getType().equals(Material.MELON_BLOCK) && above.getType().equals(Material.ENDER_PORTAL)) {
+                if (Lobby.getParkourUtil().checkInParkour(player)) {
+                    player.sendMessage(ChatColor.RED + "You must end the set parkour first!");
+                } else {
+                    Lobby.getInfiniteParkourUtil().startParkour(player);
+                }
+            }
         }
         if (player.isFlying() && Lobby.getParkourUtil().checkInParkour(player)) {
             if (Lobby.getParkourUtil().checkInParkour(player)) {
                 Lobby.getParkourUtil().removeFromParkour(player, false);
                 player.sendMessage(ChatColor.RED + "You flew so were removed from the parkour!");
                 player.getBukkitPlayer().playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 0.5f, 0);
+            }
+        }
+
+        if (Lobby.getInfiniteParkourUtil().checkInParkour(player)) {
+            if (player.isFlying()) {
+                Lobby.getInfiniteParkourUtil().endParkour(player);
+            } else {
+                if (Lobby.getInfiniteParkourUtil().checkIfFailed(player)) {
+                    Lobby.getInfiniteParkourUtil().endParkour(player);
+                } else {
+                    Lobby.getInfiniteParkourUtil().checkNextBlock(player);
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ import network.palace.cosmetics.Cosmetics;
 import network.palace.lobby.Lobby;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +37,13 @@ public class PlayerInteract implements Listener {
                     Location userTp = Lobby.getParkourUtil().getUserCheckpoint(player);
                     player.teleport(userTp);
                     event.setUseInteractedBlock(Event.Result.DENY);
+                }
+                break;
+            case BARRIER:
+                if (Lobby.getParkourUtil().checkInParkour(player)) {
+                    Lobby.getParkourUtil().removeFromParkour(player, false);
+                    player.sendMessage(ChatColor.RED + "You left the parkour!");
+                    player.getBukkitPlayer().playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 0.5f, 0);
                 }
                 break;
             default:
